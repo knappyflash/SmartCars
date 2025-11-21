@@ -1,7 +1,8 @@
 ﻿Public Class Neuron
     Public id As Integer
-    Public ParentLayer As NeuronLayer
-    Public ChildLayer As NeuronLayer
+    Public ParentLayerId As Integer
+    Public MyLayerId As Integer
+    Public ChildLayerId As Integer
     Public Bias As Double
     Public Inputs() As Double
     Public InputWeights() As Double
