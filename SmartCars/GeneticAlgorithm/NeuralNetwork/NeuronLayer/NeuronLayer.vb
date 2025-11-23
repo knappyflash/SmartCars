@@ -4,10 +4,14 @@
     output = 2
 End Enum
 Public Class NeuronLayer
-    Public id As Integer
     Public NeuronLayerType As NeuronLayerType
     Public ParentLayerId As Integer
     Public ChildLayerId As Integer
     Public Inputs() As Double
     Public Neurons() As Neuron
+
+    Public Sub New()
+
+    End Sub
+
 End Class
