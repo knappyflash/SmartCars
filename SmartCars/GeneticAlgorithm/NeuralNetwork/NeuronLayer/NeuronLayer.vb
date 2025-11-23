@@ -10,8 +10,4 @@ Public Class NeuronLayer
     Public Inputs() As Double
     Public Neurons() As Neuron
 
-    Public Sub New()
-
-    End Sub
-
 End Class

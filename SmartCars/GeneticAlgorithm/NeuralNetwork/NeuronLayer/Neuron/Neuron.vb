@@ -11,10 +11,6 @@
     Public OutputRelu As Double
     Public OutputSoftMax As Double
 
-    Public Sub New()
-
-    End Sub
-
     Public Sub ActivationFunction()
         For i = 0 To Me.Inputs.Length - 1
             OutputLinear += Me.Inputs(i) * InputWeights(i)

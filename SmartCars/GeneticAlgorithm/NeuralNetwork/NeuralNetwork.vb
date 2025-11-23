@@ -38,7 +38,7 @@
         Me.Crossover(neuralNetwork2)
     End Sub
 
-    Private Sub CreateNewNeuralNetwork()
+    Public Sub CreateNewNeuralNetwork()
         'Create NeuronLayers
         ReDim Me.NeuronLayers((Me.HiddenLayerCount - 1) + 2)
         For i As Integer = 0 To Me.NeuronLayers.Length - 1
@@ -85,7 +85,7 @@
         Next
     End Sub
 
-    Private Sub Crossover(neuralNetwork2 As NeuralNetwork)
+    Public Sub Crossover(neuralNetwork2 As NeuralNetwork)
         For i As Integer = 1 To Me.NeuronLayers.Length - 1
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
                 If Maths.RandomInt(0, 1) = 0 Then
@@ -100,7 +100,7 @@
         Next
     End Sub
 
-    Private Sub Mutate(percentage As Double)
+    Public Sub Mutate(percentage As Double)
         For i As Integer = 1 To Me.NeuronLayers.Length - 1
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
                 If Maths.RandomDbl(0, 1) < percentage Then
@@ -115,7 +115,7 @@
         Next
     End Sub
 
-    Private Sub Randomize()
+    Public Sub Randomize()
         For i As Integer = 1 To Me.NeuronLayers.Length - 1
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
                 Me.NeuronLayers(i).Neurons(j).Bias = Maths.RandomDbl(-1, 1)
@@ -126,7 +126,7 @@
         Next
     End Sub
 
-    Private Sub Backup()
+    Public Sub Backup()
         For i As Integer = 1 To Me.NeuronLayers.Length - 1
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
                 Me.NeuronLayers(i).Neurons(j).Backup()
@@ -134,12 +134,42 @@
         Next
     End Sub
 
-    Private Sub Restore()
+    Public Sub Restore()
         For i As Integer = 1 To Me.NeuronLayers.Length - 1
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
                 Me.NeuronLayers(i).Neurons(j).Restore()
             Next
         Next
     End Sub
+
+    Public Function PropogateForward(inputs() As Double) As Double()
+        Dim outputs(Me.OutputCount - 1) As Double
+
+        'inputs
+        For i As Integer = 0 To Me.InputCount - 1
+            Me.NeuronLayers(0).Inputs(i) = inputs(i)
+        Next
+
+        'layers
+        For i As Integer = 1 To Me.NeuronLayers.Length - 1
+            For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
+                For k As Integer = 0 To Me.NeuronLayers(i).Neurons(j).Inputs.Length - 1
+                    If i = 1 Then
+                        Me.NeuronLayers(1).Neurons(j).Inputs(k) = Me.NeuronLayers(0).Inputs(k)
+                    Else
+                        Me.NeuronLayers(i).Neurons(j).Inputs(k) = Me.NeuronLayers(i - 1).Neurons(k).OutputRelu
+                    End If
+                Next
+                Me.NeuronLayers(i).Neurons(j).ActivationFunction()
+            Next
+        Next
+
+        'outputs
+        For i As Integer = 0 To Me.OutputCount - 1
+            outputs(i) = Me.NeuronLayers((Me.HiddenLayerCount - 1) + 2).Neurons(i).OutputLinear
+        Next
+
+        Return outputs
+    End Function
 
 End Class
