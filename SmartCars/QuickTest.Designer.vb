@@ -62,6 +62,7 @@ Partial Class QuickTest
         TextBox1.Name = "TextBox1"
         TextBox1.Size = New Size(33, 23)
         TextBox1.TabIndex = 3
+        TextBox1.Text = "0"
         ' 
         ' TextBox2
         ' 
@@ -69,6 +70,7 @@ Partial Class QuickTest
         TextBox2.Name = "TextBox2"
         TextBox2.Size = New Size(36, 23)
         TextBox2.TabIndex = 4
+        TextBox2.Text = "0"
         ' 
         ' QuickTest
         ' 

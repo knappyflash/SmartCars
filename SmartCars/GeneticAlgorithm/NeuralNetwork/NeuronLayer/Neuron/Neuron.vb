@@ -12,6 +12,7 @@
     Public OutputSoftMax As Double
 
     Public Sub ActivationFunction()
+        OutputLinear = 0
         For i = 0 To Me.Inputs.Length - 1
             OutputLinear += Me.Inputs(i) * InputWeights(i)
         Next

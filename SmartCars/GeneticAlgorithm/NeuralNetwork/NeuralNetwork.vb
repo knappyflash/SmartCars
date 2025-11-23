@@ -6,7 +6,6 @@
     Public HiddenLayerCount As Integer
     Public NeuronsPerHiddenLayer As Integer
     Public FitnessScore As Double
-    Public FitnessScoreBest As Double
 
     'Setup a Brand New NeuralNetwork
     Public Sub New(inputCount As Integer, outputCount As Integer, hiddenLayerCount As Integer, NeuronsPerHiddenLayer As Integer)
@@ -100,7 +99,7 @@
         Next
     End Sub
 
-    Public Sub Mutate(percentage As Double)
+    Public Sub MutateRandom(percentage As Double)
         For i As Integer = 1 To Me.NeuronLayers.Length - 1
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
                 If Maths.RandomDbl(0, 1) < percentage Then
@@ -109,6 +108,36 @@
                 For k As Integer = 0 To Me.NeuronLayers(i).Neurons(j).InputWeights.Length - 1
                     If Maths.RandomDbl(0, 1) < percentage Then
                         Me.NeuronLayers(i).Neurons(j).InputWeights(k) = Maths.RandomDbl(-1, 1)
+                    End If
+                Next
+            Next
+        Next
+    End Sub
+
+    Public Sub MutateIncrease(percentage As Double)
+        For i As Integer = 1 To Me.NeuronLayers.Length - 1
+            For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
+                If Maths.RandomDbl(0, 1) < percentage Then
+                    Me.NeuronLayers(i).Neurons(j).Bias += 0.001
+                End If
+                For k As Integer = 0 To Me.NeuronLayers(i).Neurons(j).InputWeights.Length - 1
+                    If Maths.RandomDbl(0, 1) < percentage Then
+                        Me.NeuronLayers(i).Neurons(j).InputWeights(k) += 0.001
+                    End If
+                Next
+            Next
+        Next
+    End Sub
+
+    Public Sub MutateDecrease(percentage As Double)
+        For i As Integer = 1 To Me.NeuronLayers.Length - 1
+            For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
+                If Maths.RandomDbl(0, 1) < percentage Then
+                    Me.NeuronLayers(i).Neurons(j).Bias -= 0.001
+                End If
+                For k As Integer = 0 To Me.NeuronLayers(i).Neurons(j).InputWeights.Length - 1
+                    If Maths.RandomDbl(0, 1) < percentage Then
+                        Me.NeuronLayers(i).Neurons(j).InputWeights(k) -= 0.001
                     End If
                 Next
             Next
