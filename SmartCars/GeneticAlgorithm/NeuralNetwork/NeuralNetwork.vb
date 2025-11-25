@@ -6,6 +6,7 @@
     Public HiddenLayerCount As Integer
     Public NeuronsPerHiddenLayer As Integer
     Public FitnessScore As Double
+    Public FitnessScoreBest As Double
 
     'Setup a Brand New NeuralNetwork
     Public Sub New(inputCount As Integer, outputCount As Integer, hiddenLayerCount As Integer, NeuronsPerHiddenLayer As Integer)
@@ -85,15 +86,12 @@
     End Sub
 
     Public Sub Crossover(neuralNetwork2 As NeuralNetwork)
-        For i As Integer = 1 To Me.NeuronLayers.Length - 1
+        ' Crossover whole nerons bias and weights togther
+        For i As Integer = 1 To (Me.NeuronLayers.Length / 2)
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
-                If Maths.RandomInt(0, 1) = 0 Then
-                    Me.NeuronLayers(i).Neurons(j).Bias = neuralNetwork2.NeuronLayers(i).Neurons(j).Bias
-                End If
+                Me.NeuronLayers(i).Neurons(j).Bias = neuralNetwork2.NeuronLayers(i).Neurons(j).Bias
                 For k As Integer = 0 To Me.NeuronLayers(i).Neurons(j).InputWeights.Length - 1
-                    If Maths.RandomInt(0, 1) = 0 Then
-                        Me.NeuronLayers(i).Neurons(j).InputWeights(k) = neuralNetwork2.NeuronLayers(i).Neurons(j).InputWeights(k)
-                    End If
+                    Me.NeuronLayers(i).Neurons(j).InputWeights(k) = neuralNetwork2.NeuronLayers(i).Neurons(j).InputWeights(k)
                 Next
             Next
         Next

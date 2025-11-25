@@ -18,7 +18,7 @@
     End Sub
 
     Public Sub SortNeuralNetworksByFitness()
-        Dim sortedNeuralNetworks = NeuralNetworks.OrderByDescending(Function(nn) nn.FitnessScore).ToList
+        Dim sortedNeuralNetworks = NeuralNetworks.OrderByDescending(Function(nn) nn.FitnessScoreBest).ToList
         Me.NeuralNetworks = sortedNeuralNetworks
     End Sub
 
