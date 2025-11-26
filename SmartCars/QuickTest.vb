@@ -11,7 +11,7 @@
     End Sub
     Private Sub QuickTestButton_Click(sender As Object, e As EventArgs) Handles QuickTestButton.Click
 
-        For j = 0 To 50
+        For j = 0 To 500
             For i As Integer = 0 To Me.geneticAlgorithm.NeuralNetworks.Count - 1
                 Me.geneticAlgorithm.NeuralNetworks(i).FitnessScore = 0
                 If Me.geneticAlgorithm.NeuralNetworks(i).PropogateForward({0, 0})(0) < 0.5 Then Me.geneticAlgorithm.NeuralNetworks(i).FitnessScore += 1
