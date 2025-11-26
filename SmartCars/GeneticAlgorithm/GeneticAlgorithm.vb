@@ -23,10 +23,10 @@
         Me.SortNeuralNetworksByFitness()
         Me.KillBadPerformers()
         Me.PerformCrossover()
-        MutateIncreaseSome()
-        MutateDecreaseSome()
-        MutateRandomSome()
-        RandomizeSome()
+        Me.MutateIncreaseSome()
+        Me.MutateDecreaseSome()
+        Me.MutateRandomSome()
+        Me.RandomizeSome()
     End Sub
 
     Public Sub SortNeuralNetworksByFitness()
