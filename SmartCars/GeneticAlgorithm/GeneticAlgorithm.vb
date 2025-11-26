@@ -12,9 +12,21 @@
     End Sub
 
     Public Sub NextGeneration()
-        SortNeuralNetworksByFitness()
-        KillBadPerformers()
-        PerformCrossover()
+        For i As Integer = 0 To Me.NeuralNetworks.Count - 1
+            If Me.NeuralNetworks(i).FitnessScore > Me.NeuralNetworks(i).FitnessScoreBest Then
+                Me.NeuralNetworks(i).FitnessScoreBest = Me.NeuralNetworks(i).FitnessScore
+                Me.NeuralNetworks(i).Backup()
+            Else
+                Me.NeuralNetworks(i).Restore()
+            End If
+        Next
+        Me.SortNeuralNetworksByFitness()
+        Me.KillBadPerformers()
+        Me.PerformCrossover()
+        MutateIncreaseSome()
+        MutateDecreaseSome()
+        MutateRandomSome()
+        RandomizeSome()
     End Sub
 
     Public Sub SortNeuralNetworksByFitness()

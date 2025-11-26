@@ -87,11 +87,11 @@
 
     Public Sub Crossover(neuralNetwork2 As NeuralNetwork)
         ' Crossover whole nerons bias and weights togther
-        For i As Integer = 1 To (Me.NeuronLayers.Length / 2)
+        For i As Integer = 1 To Me.NeuronLayers.Length - 1
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
-                Me.NeuronLayers(i).Neurons(j).Bias = neuralNetwork2.NeuronLayers(i).Neurons(j).Bias
+                If Maths.RandomInt(0, 1) = 1 Then Me.NeuronLayers(i).Neurons(j).Bias = neuralNetwork2.NeuronLayers(i).Neurons(j).Bias
                 For k As Integer = 0 To Me.NeuronLayers(i).Neurons(j).InputWeights.Length - 1
-                    Me.NeuronLayers(i).Neurons(j).InputWeights(k) = neuralNetwork2.NeuronLayers(i).Neurons(j).InputWeights(k)
+                    If Maths.RandomInt(0, 1) = 1 Then Me.NeuronLayers(i).Neurons(j).InputWeights(k) = neuralNetwork2.NeuronLayers(i).Neurons(j).InputWeights(k)
                 Next
             Next
         Next
