@@ -1,11 +1,13 @@
 ﻿Public Class GeneticAlgorithm
     Public NeuralNetworks As New List(Of NeuralNetwork)
+    Public PopulationSize As Integer
     Public Sub New(
                   populationSize As Integer,
                   inputCount As Integer,
                   outputCount As Integer,
                   hiddenLayerCount As Integer,
                   NeuronsPerHiddenLayer As Integer)
+        Me.PopulationSize = populationSize
         For i = 0 To populationSize - 1
             NeuralNetworks.Add(New NeuralNetwork(inputCount, outputCount, hiddenLayerCount, NeuronsPerHiddenLayer))
         Next
@@ -15,18 +17,12 @@
         For i As Integer = 0 To Me.NeuralNetworks.Count - 1
             If Me.NeuralNetworks(i).FitnessScore > Me.NeuralNetworks(i).FitnessScoreBest Then
                 Me.NeuralNetworks(i).FitnessScoreBest = Me.NeuralNetworks(i).FitnessScore
-                Me.NeuralNetworks(i).Backup()
-            Else
-                Me.NeuralNetworks(i).Restore()
             End If
         Next
         Me.SortNeuralNetworksByFitness()
         Me.KillBadPerformers()
-        Me.PerformCrossover()
-        Me.MutateIncreaseSome()
-        Me.MutateDecreaseSome()
-        Me.MutateRandomSome()
-        Me.RandomizeSome()
+        Me.ClonesAndCrossovers()
+        Me.Mutations()
     End Sub
 
     Public Sub SortNeuralNetworksByFitness()
@@ -38,36 +34,30 @@
         Me.NeuralNetworks.RemoveRange(10, 90)
     End Sub
 
-    Public Sub PerformCrossover()
-        ' 18 × 5 = 90 offspring
-        For i As Integer = 1 To 18
-            For j As Integer = 0 To 8 Step 2
-                NeuralNetworks.Add(New NeuralNetwork(NeuralNetworks(j), NeuralNetworks(j + 1)))
-            Next
-        Next
+    Public Sub ClonesAndCrossovers()
+        For i As Integer = 10 To Me.PopulationSize - 1
+            If Maths.RandomInt(0, 1) = 1 Then
+                Me.NeuralNetworks.Add(New NeuralNetwork(NeuralNetworks(Maths.RandomInt(0, 9))))
+            Else
+                Me.NeuralNetworks.Add(New NeuralNetwork(NeuralNetworks(Maths.RandomInt(0, 9)), NeuralNetworks(Maths.RandomInt(0, 9))))
+            End If
+        Next i
     End Sub
 
-    Public Sub MutateIncreaseSome()
-        For i As Integer = 60 To 69
-            Me.NeuralNetworks(i).MutateIncrease(0.01)
-        Next
-    End Sub
-
-    Public Sub MutateDecreaseSome()
-        For i As Integer = 70 To 79
-            Me.NeuralNetworks(i).MutateDecrease(0.01)
-        Next
-    End Sub
-
-    Public Sub MutateRandomSome()
-        For i As Integer = 80 To 94
-            Me.NeuralNetworks(i).MutateRandom(0.01)
-        Next
-    End Sub
-
-    Public Sub RandomizeSome()
-        For i As Integer = 95 To 99
-            Me.NeuralNetworks(i).Randomize()
+    Public Sub Mutations()
+        Dim rndNum As Integer
+        For i As Integer = 10 To Me.PopulationSize - 1
+            rndNum = Maths.RandomInt(0, 3)
+            Select Case rndNum
+                Case 0
+                    Me.NeuralNetworks(i).MutateIncrease(Maths.RandomDbl(0.01, 0.1))
+                Case 1
+                    Me.NeuralNetworks(i).MutateDecrease(Maths.RandomDbl(0.01, 0.1))
+                Case 2
+                    Me.NeuralNetworks(i).MutateRandom(Maths.RandomDbl(0.01, 0.1))
+                Case 3
+                    Me.NeuralNetworks(i).Randomize()
+            End Select
         Next
     End Sub
 

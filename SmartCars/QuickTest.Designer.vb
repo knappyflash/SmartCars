@@ -36,11 +36,12 @@ Partial Class QuickTest
         Label03 = New Label()
         TextBox_00 = New TextBox()
         Label_00 = New Label()
+        ResetButton = New Button()
         SuspendLayout()
         ' 
         ' QuickTestButton
         ' 
-        QuickTestButton.Location = New Point(12, 12)
+        QuickTestButton.Location = New Point(12, 8)
         QuickTestButton.Name = "QuickTestButton"
         QuickTestButton.Size = New Size(75, 23)
         QuickTestButton.TabIndex = 0
@@ -156,11 +157,21 @@ Partial Class QuickTest
         Label_00.TabIndex = 15
         Label_00.Text = "Label3"
         ' 
+        ' ResetButton
+        ' 
+        ResetButton.Location = New Point(12, 298)
+        ResetButton.Name = "ResetButton"
+        ResetButton.Size = New Size(75, 23)
+        ResetButton.TabIndex = 16
+        ResetButton.Text = "RESET"
+        ResetButton.UseVisualStyleBackColor = True
+        ' 
         ' QuickTest
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(462, 333)
+        Controls.Add(ResetButton)
         Controls.Add(Label_00)
         Controls.Add(TextBox_00)
         Controls.Add(TextBox31)
@@ -198,4 +209,5 @@ Partial Class QuickTest
     Friend WithEvents Label03 As Label
     Friend WithEvents TextBox_00 As TextBox
     Friend WithEvents Label_00 As Label
+    Friend WithEvents ResetButton As Button
 End Class
