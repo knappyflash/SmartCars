@@ -8,10 +8,13 @@
 ''' keep the top 10% by sorting the cars of the population and copy the top ten to the other 90%
 ''' </summary>
 Public Class Form1
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        QuickTest.Show()
-        Exit Sub
+        Using game As New Game1()
+            game.Run()
+        End Using
+        End
 
     End Sub
 
