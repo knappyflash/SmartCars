@@ -11,10 +11,8 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Using game As New Game1()
-            game.Run()
-        End Using
-        End
+        'QuickTest.Show()
+        track.Show()
 
     End Sub
 
