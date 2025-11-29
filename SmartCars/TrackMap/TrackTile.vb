@@ -4,7 +4,6 @@
     Public TileType As TrackImages.TrackTileType
     Public Rect As Rectangle
     Public ShouldDrawDot As Boolean = False
-
     Public Sub New(trackTileType As TrackImages.TrackTileType, x As Integer, y As Integer, Optional width As Integer = 160, Optional height As Integer = 160)
         SetTile(trackTileType, x, y, width, height)
     End Sub
@@ -23,29 +22,25 @@
         Me.TileType = trackTileType
         Select Case Me.TileType
             Case TrackImages.TrackTileType.grass
-                Me.Img = TrackImages.trackGrass.Clone
+                Me.Img = TrackImages.grassBitmap
 
             Case TrackImages.TrackTileType.strightVertical
-                Me.Img = TrackImages.trackStright.Clone
-                Me.Img.RotateFlip(RotateFlipType.Rotate90FlipNone)
+                Me.Img = TrackImages.strightVerticalBitmap
 
             Case TrackImages.TrackTileType.strightHorizontal
-                Me.Img = TrackImages.trackStright.Clone
+                Me.Img = TrackImages.strightHorizontalBitmap
 
             Case TrackImages.TrackTileType.turnTopToRight
-                Me.Img = TrackImages.trackTurn.Clone
-                Me.Img.RotateFlip(RotateFlipType.Rotate180FlipNone)
+                Me.Img = TrackImages.turnTopToRightBitmap
 
             Case TrackImages.TrackTileType.turnTopToLeft
-                Me.Img = TrackImages.trackTurn.Clone
-                Me.Img.RotateFlip(RotateFlipType.Rotate90FlipNone)
+                Me.Img = TrackImages.turnTopToLeftBitmap
 
             Case TrackImages.TrackTileType.turnBottomToRight
-                Me.Img = TrackImages.trackTurn.Clone
-                Me.Img.RotateFlip(RotateFlipType.Rotate270FlipNone)
+                Me.Img = TrackImages.turnBottomToRightBitmap
 
             Case TrackImages.TrackTileType.turnBottomToLeft
-                Me.Img = TrackImages.trackTurn.Clone
+                Me.Img = TrackImages.turnBottomToLeftBitmap
         End Select
     End Sub
 

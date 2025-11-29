@@ -28,4 +28,8 @@
         Return Math.Sqrt(dx * dx + dy * dy)
     End Function
 
+    Public Shared Function Normalize(value As Double, min As Double, max As Double) As Double 'Normalize input value between 0 And 1
+        Return (value - min) / (max - min)
+    End Function
+
 End Class

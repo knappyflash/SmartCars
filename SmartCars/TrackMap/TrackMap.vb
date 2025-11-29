@@ -1,13 +1,16 @@
-﻿Imports System.Drawing
+﻿Imports System.ComponentModel
+Imports System.Drawing
 Imports System.Net.Security
 Imports System.Windows.Automation
 
 Public Class TrackMap
 
-    Public car As New Car
+    Public SmartCars As New SmartCars
 
     Public TrackBitmap As Bitmap
     Public TrackTiles(,) As TrackTile
+
+    Public drawNn As New DrawBestNeuralNetwork
 
     Dim widthTileCount As Integer = 11
     Dim heightTileCount As Integer = 6
@@ -15,9 +18,24 @@ Public Class TrackMap
     Private Sub track_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Width = widthTileCount * 160
         Me.Height = heightTileCount * 160
+        Me.BackColor = Color.FromArgb(96, 142, 66)
+        ReDim Me.TrackTiles(widthTileCount - 1, heightTileCount - 1)
         Me.TrackBitmap = New Bitmap(widthTileCount * 160, widthTileCount * 160)
         Me.Setup()
+
+        Dim answer As MsgBoxResult = MsgBox("Do you want to load your save file?", MsgBoxStyle.YesNo)
+        If answer = MsgBoxResult.Yes Then Me.SmartCars.GeneticAlgorithm = JsonParser.LoadFromFile(Of GeneticAlgorithm)($"{Application.StartupPath}\save.json")
+
+        drawNn.car = Me.SmartCars.Cars(0)
+        drawNn.neuralNetwork = Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0)
+        drawNn.geneticAlgorithm = Me.SmartCars.GeneticAlgorithm
+
         Me.Timer1.Start()
+
+        Me.FormBorderStyle = FormBorderStyle.Sizable
+        Me.WindowState = WindowState.Normal
+        Me.FormBorderStyle = FormBorderStyle.None
+        Me.WindowState = WindowState.Maximized
     End Sub
     Private Sub track_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
         Me.MeDraw(e.Graphics)
@@ -27,13 +45,16 @@ Public Class TrackMap
         Me.ClearMap()
         Me.CreateTrack()
         Me.TrackToBitmap()
-        Me.car.posX = 90
-        Me.car.posY = 90
-        car.trackBitmap = Me.TrackBitmap
+
+        For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
+            Me.SmartCars.Cars(i).posX = 90
+            Me.SmartCars.Cars(i).posY = 90
+            Me.SmartCars.Cars(i).TrackBitmap = Me.TrackBitmap
+        Next
+
     End Sub
 
     Private Sub ClearMap()
-        ReDim Me.TrackTiles(widthTileCount - 1, heightTileCount - 1)
         For x As Integer = 0 To widthTileCount - 1
             For y As Integer = 0 To heightTileCount - 1
                 Me.TrackTiles(x, y) = New TrackTile(TrackImages.TrackTileType.grass, x * 160, y * 160, 160, 160)
@@ -247,21 +268,33 @@ Public Class TrackMap
     End Sub
 
     Private Sub MeUpdate()
-        Me.car.Move()
-        If Me.car.Crashed Then
-            Debug.WriteLine($"{Now} Crashed!")
-            Me.ClearMap()
-            Me.CreateTrack()
-            Me.TrackToBitmap()
-            Me.car.Reset()
+
+        Me.SmartCars.MoveCars()
+
+        If Not Me.SmartCars.StillAlive Then
+            Me.Reset()
         End If
     End Sub
 
     Private Sub MeDraw(g As Graphics)
-
+        Dim sensorVisible As Boolean = False
         g.DrawImage(TrackBitmap, 0, 0)
-        g.FillPolygon(Brushes.Red, car.Body)
-        Me.car.DrawSensors(g)
+        For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
+
+            g.FillPolygon(Brushes.Red, Me.SmartCars.Cars(i).Body)
+            g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(i).posX) + 10, CInt(Me.SmartCars.Cars(i).posY) + 5, 3, 3)
+
+            If i = 0 Then
+                sensorVisible = True
+            Else
+                sensorVisible = False
+            End If
+
+            Me.SmartCars.Cars(i).DrawSensors(g, sensorVisible)
+        Next
+
+        drawNn.NeuralNetworkToBitmap()
+        g.DrawImage(drawNn.NeuralNetworkBitmap, Me.Width - drawNn.NeuralNetworkBitmap.Width, 0, drawNn.NeuralNetworkBitmap.Width, drawNn.NeuralNetworkBitmap.Height)
 
     End Sub
 
@@ -270,83 +303,40 @@ Public Class TrackMap
         Me.Invalidate()
     End Sub
 
-    Private Sub TrackMap_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
-        If e.KeyCode = Keys.D Then car.wheelTurnRight = True
-        If e.KeyCode = Keys.A Then car.wheelTurnLeft = True
-        If e.KeyCode = Keys.W Then car.gasPedalPressed = True
-        If e.KeyCode = Keys.S Then car.breakPedalPressed = True
+    Private Sub Reset()
+        Me.SmartCars.GeneticAlgorithm.NextGeneration()
+        Me.ClearMap()
+        Me.CreateTrack()
+        Me.TrackToBitmap()
+        For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
+            Me.SmartCars.Cars(i).Reset()
+        Next
+        Me.drawNn.neuralNetwork = Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0)
     End Sub
+
+    Private Sub TrackMap_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        Dim answer As MsgBoxResult = MsgBox("Do you want to override you save?", MsgBoxStyle.YesNo)
+        If answer = MsgBoxResult.Yes Then JsonParser.SaveToFile(Me.SmartCars.GeneticAlgorithm, $"{Application.StartupPath}\save.json")
+        End
+    End Sub
+
+    'Private Sub TrackMap_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+
+    'End Sub
 
     Private Sub TrackMap_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
-        If e.KeyCode = Keys.D Then car.wheelTurnRight = False
-        If e.KeyCode = Keys.A Then car.wheelTurnLeft = False
-        If e.KeyCode = Keys.W Then car.gasPedalPressed = False
-        If e.KeyCode = Keys.S Then car.breakPedalPressed = False
+        If e.KeyCode = Keys.Escape Then
+            If Me.FormBorderStyle = FormBorderStyle.None Then
+                Me.FormBorderStyle = FormBorderStyle.Sizable
+                Me.WindowState = WindowState.Normal
+            Else
+                Me.FormBorderStyle = FormBorderStyle.None
+                Me.WindowState = WindowState.Maximized
+            End If
+        End If
     End Sub
 
-    Private Sub TrashCan()
-        'Private trackStright As Image = Image.FromFile($"{Application.StartupPath}\track\stright.png")
-        'Private trackTurn As Image = Image.FromFile($"{Application.StartupPath}\track\turn.png")
-        'Dim x As Integer = 100
-        'Dim y As Integer = 100
 
-        'g.FillRectangle(New SolidBrush(Color.FromArgb(0, 0, 255)), New Rectangle(x, y, 134, 134))
-        'g.DrawImage(trackStright, x, y, 108, 108)
-        'g.DrawImage(trackStright, x + 26, y, 108, 108)
-
-        'If Maths.RandomInt(0, 10) = 1 Then flipFlop = Not flipFlop
-        'If flipFlop Then g.DrawImage(trackStright2, x, y, 134, 134)
-
-        'g.FillRectangle(New SolidBrush(Color.FromArgb(0, 0, 255)), New Rectangle(x + 134, y, 134, 134))
-        'g.DrawImage(trackTurn, x + 134, 6 + y, 128, 128)
-
-        'If Maths.RandomInt(0, 10) = 1 Then flipFlop = Not flipFlop
-        'If flipFlop Then g.DrawImage(trackTurn2, x + 134, y, 134, 134)
-
-        'Dim bmp As New Bitmap(134, 134)
-        'Using g As Graphics = Graphics.FromImage(bmp)
-        '    Dim x As Integer = 0
-        '    Dim y As Integer = 0
-        '    g.FillRectangle(New SolidBrush(Color.FromArgb(96, 142, 66)), New Rectangle(x, y, 134, 134))
-        '    'g.DrawImage(trackStright, x, y, 108, 108)
-        '    'g.DrawImage(trackStright, x + 26, y, 108, 108)
-
-        '    'g.FillRectangle(New SolidBrush(Color.FromArgb(96, 142, 66)), New Rectangle(x + 134, y, 134, 134))
-        '    g.DrawImage(trackTurn, x, 6 + y, 128, 128)
-        'End Using
-        'bmp.Save($"{Application.StartupPath}\track\turn2.png", Imaging.ImageFormat.Png)
-        'trackTurn2 = Image.FromFile($"{Application.StartupPath}\track\turn2.png")
-
-
-
-
-        'Dim bmp As New Bitmap(134 + 26, 134 + 26)
-        'Using g As Graphics = Graphics.FromImage(bmp)
-        '    g.FillRectangle(New SolidBrush(Color.FromArgb(96, 142, 66)), New Rectangle(0, 0, 134 + 26, 134 + 26))
-        '    g.DrawImage(tiles(0, 0), 0, 26)
-        '    g.DrawImage(tiles(0, 0), 26, 26)
-        'End Using
-        'bmp.Save($"{Application.StartupPath}\track\stright3.png", Imaging.ImageFormat.Png)
-        'trackStright3 = Image.FromFile($"{Application.StartupPath}\track\stright3.png")
-
-
-        'If Maths.RandomInt(0, 1) = 0 Then
-        '    g.FillRectangle(New SolidBrush(Color.Blue), New Rectangle(0, 0, 134 + 26, 134 + 26))
-        '    g.DrawImage(tiles(0, 0), 0, 26)
-        '    g.DrawImage(tiles(0, 0), 26, 26)
-        'Else
-        '    g.DrawImage(trackStright3, 0, 0)
-        'End If
-
-        'Dim bmp As New Bitmap(160, 160)
-        'Using g As Graphics = Graphics.FromImage(bmp)
-        '    g.FillRectangle(New SolidBrush(Color.FromArgb(96, 142, 66)), New Rectangle(0, 0, 160, 160))
-        '    g.DrawImage(trackTurn2, 0, 26)
-        'End Using
-        'bmp.Save($"{Application.StartupPath}\track\turn3.png", Imaging.ImageFormat.Png)
-        'trackTurn3 = Image.FromFile($"{Application.StartupPath}\track\turn3.png")
-
-    End Sub
 
 
 End Class
