@@ -35,6 +35,7 @@ Public Class Car
     Public posY As Double
     Public angleDegrees As Double
     Public angleRadians As Double
+    Public maxSpeed As Double = 2
 
     Public BodyRect As New Rectangle(0, 0, 20, 10)
     Public sensors(10) As Sensor
@@ -66,6 +67,7 @@ Public Class Car
                     Speed = 0
                 End If
             End If
+            If Speed > maxSpeed Then Speed = maxSpeed
         End If
 
         If wheelTurnLeft Then angleDegrees -= 1.5
@@ -155,10 +157,10 @@ Public Class Car
 
     Private killCounter As Integer
     Private Sub killCounterDo()
-        If Me.GroundSpeed >= 1 Then
+        If Me.GroundSpeed >= 0.8 Then
             Me.killCounter = 0
         End If
-        If Me.killCounter > 100 Then
+        If Me.killCounter > 200 Then
             Me.GroundSpeed = 0
             Me.Crashed = True
         End If

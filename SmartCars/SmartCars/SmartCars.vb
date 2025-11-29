@@ -1,5 +1,5 @@
 ﻿Public Class SmartCars
-    Public GeneticAlgorithm As New GeneticAlgorithm(100, 12, 4, 10, 10)
+    Public GeneticAlgorithm As New GeneticAlgorithm(100, 12, 4, 10, 4)
     Public Cars(99) As Car
 
     Public inputs(11) As Double
@@ -37,11 +37,11 @@
                 Cars(i).gasPedalPressed = False
             End If
 
-            If outputs(1) > 0.5 Then
-                Cars(i).breakPedalPressed = True
-            Else
-                Cars(i).breakPedalPressed = False
-            End If
+            'If outputs(1) > 0.5 Then
+            '    Cars(i).breakPedalPressed = True
+            'Else
+            '    Cars(i).breakPedalPressed = False
+            'End If
 
             If outputs(2) > 0.5 Then
                 Cars(i).wheelTurnLeft = True

@@ -32,7 +32,7 @@
 
             Me.x = Me.NeuralNetworkBitmap.Width - 60
             Me.y = 0
-            For Each neuron As Neuron In Me.neuralNetwork.NeuronLayers(5).Neurons
+            For Each neuron As Neuron In Me.neuralNetwork.NeuronLayers(11).Neurons
                 g.DrawString(neuron.OutputLinear.ToString("F2"), myFont, Brushes.Red, x, y, myFormat)
                 Me.y += 20
             Next
