@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class track
+Partial Class TrackMap
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -30,13 +30,14 @@ Partial Class track
         ' 
         Timer1.Interval = 1
         ' 
-        ' track
+        ' TrackMap
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
+        AutoScroll = True
         ClientSize = New Size(1323, 522)
         DoubleBuffered = True
-        Name = "track"
+        Name = "TrackMap"
         Text = "track"
         TopMost = True
         ResumeLayout(False)

@@ -12,8 +12,9 @@ Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         'QuickTest.Show()
-        track.Show()
-
+        TrackMap.Show()
+        TrackMap.Left = 0
+        TrackMap.WindowState = WindowState.Maximized
     End Sub
 
 End Class
