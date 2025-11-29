@@ -165,6 +165,7 @@ Public Class Car
             Me.Crashed = True
         End If
         Me.killCounter += 1
+        If Me.Odometer > 4000 Then Me.Crashed = True
     End Sub
 
 
