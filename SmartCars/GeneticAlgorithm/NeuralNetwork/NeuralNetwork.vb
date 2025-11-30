@@ -119,11 +119,11 @@
         For i As Integer = 1 To Me.NeuronLayers.Length - 1
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
                 If Maths.RandomDbl(0, 1) < percentage Then
-                    Me.NeuronLayers(i).Neurons(j).Bias += Maths.RandomDbl(0.001, 1)
+                    Me.NeuronLayers(i).Neurons(j).Bias += Maths.RandomDbl(0.001, 0.1)
                 End If
                 For k As Integer = 0 To Me.NeuronLayers(i).Neurons(j).InputWeights.Length - 1
                     If Maths.RandomDbl(0, 1) < percentage Then
-                        Me.NeuronLayers(i).Neurons(j).InputWeights(k) += Maths.RandomDbl(0.001, 1)
+                        Me.NeuronLayers(i).Neurons(j).InputWeights(k) += Maths.RandomDbl(0.001, 0.1)
                     End If
                 Next
             Next
@@ -134,11 +134,11 @@
         For i As Integer = 1 To Me.NeuronLayers.Length - 1
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
                 If Maths.RandomDbl(0, 1) < percentage Then
-                    Me.NeuronLayers(i).Neurons(j).Bias -= Maths.RandomDbl(0.001, 1)
+                    Me.NeuronLayers(i).Neurons(j).Bias -= Maths.RandomDbl(0.001, 0.1)
                 End If
                 For k As Integer = 0 To Me.NeuronLayers(i).Neurons(j).InputWeights.Length - 1
                     If Maths.RandomDbl(0, 1) < percentage Then
-                        Me.NeuronLayers(i).Neurons(j).InputWeights(k) -= Maths.RandomDbl(0.001, 1)
+                        Me.NeuronLayers(i).Neurons(j).InputWeights(k) -= Maths.RandomDbl(0.001, 0.1)
                     End If
                 Next
             Next

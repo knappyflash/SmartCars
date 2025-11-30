@@ -45,7 +45,7 @@
             Me.y -= 20
             g.DrawString($"GroundSpeed: {Me.car.GroundSpeed.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
-            g.DrawString($"Generation: {Me.geneticAlgorithm.Generation}", myFont, Brushes.Black, x, y, myFormat)
+            g.DrawString($"Generation: {Me.geneticAlgorithm.Generation}:{Me.geneticAlgorithm.GenerationCounter}", myFont, Brushes.Black, x, y, myFormat)
         End Using
     End Sub
 

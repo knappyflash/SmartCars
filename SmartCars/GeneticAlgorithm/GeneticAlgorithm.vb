@@ -2,6 +2,7 @@
     Public NeuralNetworks As New List(Of NeuralNetwork)
     Public PopulationSize As Integer
     Public Generation As Integer = 0
+    Public GenerationCounter As Integer
     Public Sub New(
                   populationSize As Integer,
                   inputCount As Integer,
@@ -21,10 +22,15 @@
             End If
         Next
         Me.SortNeuralNetworksByFitness()
-        Me.KillBadPerformers()
-        Me.ClonesAndCrossovers()
+
+        If GenerationCounter > 5 Then
+            Me.KillBadPerformers()
+            Me.Clones()
+            Generation += 1
+            GenerationCounter = 0
+        End If
         Me.Mutations()
-        Generation += 1
+        GenerationCounter = GenerationCounter + 1
     End Sub
 
     Public Sub SortNeuralNetworksByFitness()
@@ -36,31 +42,28 @@
         Me.NeuralNetworks.RemoveRange(1, 99)
     End Sub
 
-    Public Sub ClonesAndCrossovers()
-        For i As Integer = 1 To Me.PopulationSize - 1
+    Public Sub Clones()
+        For i As Integer = 1 To Me.PopulationSize
             Me.NeuralNetworks.Add(New NeuralNetwork(NeuralNetworks(0)))
-            'If Maths.RandomInt(0, 1) = 1 Then
-            '    Me.NeuralNetworks.Add(New NeuralNetwork(NeuralNetworks(Maths.RandomInt(0, 9))))
-            'Else
-            '    Me.NeuralNetworks.Add(New NeuralNetwork(NeuralNetworks(Maths.RandomInt(0, 9)), NeuralNetworks(Maths.RandomInt(0, 9))))
-            'End If
         Next i
     End Sub
 
     Public Sub Mutations()
         Dim rndNum As Integer
         For i As Integer = 1 To Me.PopulationSize - 1
-            rndNum = Maths.RandomInt(0, 3)
-            Select Case rndNum
-                Case 0
-                    Me.NeuralNetworks(i).MutateIncrease(Maths.RandomDbl(0.001, 1))
-                Case 1
-                    Me.NeuralNetworks(i).MutateDecrease(Maths.RandomDbl(0.001, 1))
-                Case 2
-                    Me.NeuralNetworks(i).MutateRandom(Maths.RandomDbl(0.001, 1))
-                Case 3
-                    Me.NeuralNetworks(i).Randomize()
-            End Select
+            Me.NeuralNetworks(i).Randomize()
+            rndNum = Maths.RandomInt(0, 100)
+
+            If (rndNum > 0) And (rndNum < 39) Then
+                Me.NeuralNetworks(i).MutateIncrease(Maths.RandomDbl(0.001, 0.1))
+            ElseIf (rndNum > 40) And (rndNum < 79) Then
+                Me.NeuralNetworks(i).MutateDecrease(Maths.RandomDbl(0.001, 0.1))
+            ElseIf (rndNum > 80) And (rndNum < 89) Then
+                Me.NeuralNetworks(i).MutateRandom(Maths.RandomDbl(0.001, 0.1))
+            ElseIf (rndNum > 90) And (rndNum < 100) Then
+                Me.NeuralNetworks(i).Randomize()
+            End If
+
         Next
     End Sub
 

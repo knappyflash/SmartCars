@@ -1,4 +1,5 @@
 ﻿Imports System.Windows
+Imports System.Windows.Controls
 Imports System.Windows.Forms.AxHost
 Imports Windows.Win32.System
 
@@ -21,7 +22,8 @@ Public Class Car
         reverse = 2
     End Enum
 
-    Public BodyColor As Color
+    Public BodyColor As Color = Color.Red
+    Public BodyBrush As New SolidBrush(BodyColor)
     Public Speed As Double
     Public Odometer As Double
     Public Body As PointF()
@@ -36,6 +38,7 @@ Public Class Car
     Public angleDegrees As Double
     Public angleRadians As Double
     Public maxSpeed As Double = 2
+    Public maxOdometer As Double = 4000
 
     Public BodyRect As New Rectangle(0, 0, 20, 10)
     Public sensors(10) As Sensor
@@ -131,6 +134,7 @@ Public Class Car
         Me.killCounter = 0
         Me.angleDegrees = 0
         Me.TrackBitmap = Me.TrackBitmap
+        maxOdometer += 1
     End Sub
 
     Public Sub DrawSensors(g As Graphics, isVisible As Boolean)
@@ -165,7 +169,9 @@ Public Class Car
             Me.Crashed = True
         End If
         Me.killCounter += 1
-        If Me.Odometer > 4000 Then Me.Crashed = True
+        If Me.Odometer > maxOdometer Then
+            Me.Crashed = True
+        End If
     End Sub
 
 

@@ -281,7 +281,8 @@ Public Class TrackMap
         g.DrawImage(TrackBitmap, 0, 0)
         For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
 
-            g.FillPolygon(Brushes.Red, Me.SmartCars.Cars(i).Body)
+
+            g.FillPolygon(Me.SmartCars.Cars(i).BodyBrush, Me.SmartCars.Cars(i).Body)
             g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(i).posX) + 10, CInt(Me.SmartCars.Cars(i).posY) + 5, 3, 3)
 
             If i = 0 Then
@@ -311,7 +312,10 @@ Public Class TrackMap
         For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
             Me.SmartCars.Cars(i).Reset()
         Next
-        Me.drawNn.neuralNetwork = Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0)
+
+        drawNn.car = Me.SmartCars.Cars(0)
+        drawNn.neuralNetwork = Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0)
+        drawNn.geneticAlgorithm = Me.SmartCars.GeneticAlgorithm
     End Sub
 
     Private Sub TrackMap_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing

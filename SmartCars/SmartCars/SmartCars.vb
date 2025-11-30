@@ -9,13 +9,15 @@
     Public Sub New()
         For i As Integer = 0 To Cars.Length - 1
             Cars(i) = New Car
+            Cars(i).BodyColor = Color.FromArgb(Maths.RandomInt(0, 255), Maths.RandomInt(0, 255), Maths.RandomInt(0, 255))
+            Cars(i).BodyBrush.Color = Cars(i).BodyColor
         Next
     End Sub
 
     Public Sub MoveCars()
 
         StillAlive = False
-        For i As Integer = 0 To Me.GeneticAlgorithm.NeuralNetworks.Count - 1
+        For i As Integer = 0 To Me.Cars.Length - 1
 
             If Cars(i).Crashed Then
                 Continue For
@@ -54,6 +56,14 @@
             Else
                 Cars(i).wheelTurnRight = False
             End If
+
+            'If i Mod 2 = 0 Then
+            '    Cars(i).wheelTurnRight = True
+            '    Cars(i).wheelTurnLeft = False
+            'Else
+            '    Cars(i).wheelTurnLeft = True
+            '    Cars(i).wheelTurnRight = False
+            'End If
 
             Me.Cars(i).Move()
 
