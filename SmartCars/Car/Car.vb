@@ -24,7 +24,7 @@ Public Class Car
 
     Public BodyColor As Color = Color.Red
     Public BodyBrush As New SolidBrush(BodyColor)
-    Public Speed As Double
+    Public AccelerationValue As Double
     Public Odometer As Double
     Public Body As PointF()
     Public _trackBitmap As Bitmap
@@ -61,16 +61,16 @@ Public Class Car
     Public Sub Move()
         If gear = InGear.forward Then
             If gasPedalPressed Then
-                Speed += 0.01
+                AccelerationValue += 0.01
             End If
             If breakPedalPressed Then
-                If Speed > 0 Then
-                    Speed -= 0.05
+                If AccelerationValue > 0 Then
+                    AccelerationValue -= 0.05
                 Else
-                    Speed = 0
+                    AccelerationValue = 0
                 End If
             End If
-            If Speed > maxSpeed Then Speed = maxSpeed
+            If AccelerationValue > maxSpeed Then AccelerationValue = maxSpeed
         End If
 
         If wheelTurnLeft Then angleDegrees -= 1.5
@@ -102,8 +102,8 @@ Public Class Car
             Body(i) = New PointF(CSng(xNew), CSng(yNew))
         Next
 
-        dx = Math.Cos(angleRadians) * Speed
-        dy = Math.Sin(angleRadians) * Speed
+        dx = Math.Cos(angleRadians) * AccelerationValue
+        dy = Math.Sin(angleRadians) * AccelerationValue
 
         Me.posX += dx
         Me.posY += dy
@@ -121,7 +121,7 @@ Public Class Car
         If TrackBitmap Is Nothing Then Exit Sub
         If Me.TrackBitmap.GetPixel(Me.posX + 10, Me.posY + 5).ToArgb <> Color.FromArgb(77, 77, 77).ToArgb Then
             Me.Crashed = True
-            Me.Speed = 0
+            Me.AccelerationValue = 0
         End If
     End Sub
 
@@ -129,7 +129,7 @@ Public Class Car
         Me.Crashed = False
         Me.posX = 90
         Me.posY = 90
-        Me.Speed = 0
+        Me.AccelerationValue = 0
         Me.Odometer = 0
         Me.killCounter = 0
         Me.angleDegrees = 0

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
-    <StartupObject>Sub Main</StartupObject>
+    <StartupObject>SmartCars.My.MyApplication</StartupObject>
     <UseWindowsForms>True</UseWindowsForms>
     <MyType>WindowsForms</MyType>
     <UseWPF>True</UseWPF>
