@@ -41,7 +41,7 @@ Public Class Car
     Public maxOdometer As Double = 4000
 
     Public BodyRect As New Rectangle(0, 0, 20, 10)
-    Public sensors(10) As Sensor
+    Public sensors(4) As Sensor
 
     Public GroundSpeed As Double
     Public Crashed As Boolean
@@ -138,10 +138,10 @@ Public Class Car
     End Sub
 
     Public Sub DrawSensors(g As Graphics, isVisible As Boolean)
-        Dim myAngle As Double = -100
+        Dim myAngle As Double = -90
         For i As Integer = 0 To sensors.Length - 1
             sensors(i).DrawSensor(g, BodyRect, angleDegrees, Maths.DegreesModulo360(myAngle), isVisible)
-            myAngle += 20
+            myAngle += 45
         Next
     End Sub
 

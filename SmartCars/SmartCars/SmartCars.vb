@@ -1,8 +1,8 @@
 ﻿Public Class SmartCars
-    Public GeneticAlgorithm As New GeneticAlgorithm(100, 12, 4, 1, 4)
+    Public GeneticAlgorithm As New GeneticAlgorithm(100, 6, 4, 1, 4)
     Public Cars(99) As Car
 
-    Public inputs(11) As Double
+    Public inputs(5) As Double
     Public outputs(3) As Double
     Public StillAlive As Boolean
 
@@ -28,7 +28,7 @@
             For j As Integer = 0 To Cars(i).sensors.Length - 1
                 inputs(j) = Cars(i).sensors(j).SensorValue
             Next
-            inputs(11) = Cars(i).GroundSpeed
+            inputs(5) = Cars(i).GroundSpeed
             outputs = Me.GeneticAlgorithm.NeuralNetworks(i).PropogateForward(inputs)
 
             Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = Me.Cars(i).Odometer
