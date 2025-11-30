@@ -119,11 +119,11 @@
         For i As Integer = 1 To Me.NeuronLayers.Length - 1
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
                 If Maths.RandomDbl(0, 1) < percentage Then
-                    Me.NeuronLayers(i).Neurons(j).Bias += Maths.RandomDbl(0.001, 0.1)
+                    Me.NeuronLayers(i).Neurons(j).Bias += Maths.RandomDbl(0.001, 1)
                 End If
                 For k As Integer = 0 To Me.NeuronLayers(i).Neurons(j).InputWeights.Length - 1
                     If Maths.RandomDbl(0, 1) < percentage Then
-                        Me.NeuronLayers(i).Neurons(j).InputWeights(k) += Maths.RandomDbl(0.001, 0.1)
+                        Me.NeuronLayers(i).Neurons(j).InputWeights(k) += Maths.RandomDbl(0.001, 1)
                     End If
                 Next
             Next
@@ -134,11 +134,11 @@
         For i As Integer = 1 To Me.NeuronLayers.Length - 1
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
                 If Maths.RandomDbl(0, 1) < percentage Then
-                    Me.NeuronLayers(i).Neurons(j).Bias -= Maths.RandomDbl(0.001, 0.1)
+                    Me.NeuronLayers(i).Neurons(j).Bias -= Maths.RandomDbl(0.001, 1)
                 End If
                 For k As Integer = 0 To Me.NeuronLayers(i).Neurons(j).InputWeights.Length - 1
                     If Maths.RandomDbl(0, 1) < percentage Then
-                        Me.NeuronLayers(i).Neurons(j).InputWeights(k) -= Maths.RandomDbl(0.001, 0.1)
+                        Me.NeuronLayers(i).Neurons(j).InputWeights(k) -= Maths.RandomDbl(0.001, 1)
                     End If
                 Next
             Next
@@ -146,6 +146,19 @@
 
     End Sub
 
+    Public Sub MutateOnlyOneThing()
+        Dim rndLayerId As Integer
+        Dim rndNeronId As Integer
+        Dim rndWeightId As Integer
+        rndLayerId = Maths.RandomInt(1, Me.NeuronLayers.Length - 1)
+        rndNeronId = Maths.RandomInt(1, Me.NeuronLayers(rndLayerId).Neurons.Length - 1)
+        rndWeightId = Maths.RandomInt(1, Me.NeuronLayers(rndLayerId).Neurons(rndNeronId).InputWeights.Length - 1)
+        If Maths.RandomInt(0, 1) = 1 Then
+            Me.NeuronLayers(rndLayerId).Neurons(rndNeronId).Bias = Maths.RandomInt(-1, 1)
+        Else
+            Me.NeuronLayers(rndLayerId).Neurons(rndNeronId).InputWeights(rndWeightId) = Maths.RandomInt(-1, 1)
+        End If
+    End Sub
     Public Sub Randomize()
         For i As Integer = 1 To Me.NeuronLayers.Length - 1
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1

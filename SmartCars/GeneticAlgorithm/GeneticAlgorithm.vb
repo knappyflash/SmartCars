@@ -53,15 +53,22 @@
         For i As Integer = 1 To Me.PopulationSize - 1
 
             rndNum = Maths.RandomInt(0, 100)
-            If (rndNum > 0) And (rndNum < 39) Then
-                Me.NeuralNetworks(i).MutateIncrease(Maths.RandomDbl(0.001, 0.1))
-            ElseIf (rndNum > 40) And (rndNum < 79) Then
-                Me.NeuralNetworks(i).MutateDecrease(Maths.RandomDbl(0.001, 0.1))
-            ElseIf (rndNum > 80) And (rndNum < 89) Then
-                Me.NeuralNetworks(i).MutateRandom(Maths.RandomDbl(0.001, 0.1))
-            ElseIf (rndNum > 90) And (rndNum < 100) Then
+
+            If (rndNum > 0) And (rndNum < 49) Then
+                Me.NeuralNetworks(i).MutateOnlyOneThing()
+            Else
                 Me.NeuralNetworks(i).Randomize()
             End If
+
+            'If (rndNum > 0) And (rndNum < 39) Then
+            '    Me.NeuralNetworks(i).MutateIncrease(Maths.RandomDbl(0.01, 1))
+            'ElseIf (rndNum > 40) And (rndNum < 79) Then
+            '    Me.NeuralNetworks(i).MutateDecrease(Maths.RandomDbl(0.01, 1))
+            'ElseIf (rndNum > 80) And (rndNum < 89) Then
+            '    Me.NeuralNetworks(i).MutateRandom(Maths.RandomDbl(0.01, 1))
+            'ElseIf (rndNum > 90) And (rndNum < 100) Then
+            '    Me.NeuralNetworks(i).Randomize()
+            'End If
 
         Next
     End Sub
