@@ -37,7 +37,7 @@ Public Class Car
     Public posY As Double
     Public angleDegrees As Double
     Public angleRadians As Double
-    Public maxSpeed As Double = 2
+    Public maxSpeed As Double = 5
     Public maxOdometer As Double = 4000
 
     Public BodyRect As New Rectangle(0, 0, 20, 10)

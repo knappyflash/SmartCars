@@ -39,11 +39,11 @@
                 Cars(i).gasPedalPressed = False
             End If
 
-            'If outputs(1) > 0.5 Then
-            '    Cars(i).breakPedalPressed = True
-            'Else
-            '    Cars(i).breakPedalPressed = False
-            'End If
+            If outputs(1) > 0.5 Then
+                Cars(i).breakPedalPressed = True
+            Else
+                Cars(i).breakPedalPressed = False
+            End If
 
             If outputs(2) > 0.5 Then
                 Cars(i).wheelTurnLeft = True
@@ -56,14 +56,6 @@
             Else
                 Cars(i).wheelTurnRight = False
             End If
-
-            'If i Mod 2 = 0 Then
-            '    Cars(i).wheelTurnRight = True
-            '    Cars(i).wheelTurnLeft = False
-            'Else
-            '    Cars(i).wheelTurnLeft = True
-            '    Cars(i).wheelTurnRight = False
-            'End If
 
             Me.Cars(i).Move()
 
