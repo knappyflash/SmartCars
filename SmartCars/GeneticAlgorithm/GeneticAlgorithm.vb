@@ -51,9 +51,8 @@
     Public Sub Mutations()
         Dim rndNum As Integer
         For i As Integer = 1 To Me.PopulationSize - 1
-            Me.NeuralNetworks(i).Randomize()
-            rndNum = Maths.RandomInt(0, 100)
 
+            rndNum = Maths.RandomInt(0, 100)
             If (rndNum > 0) And (rndNum < 39) Then
                 Me.NeuralNetworks(i).MutateIncrease(Maths.RandomDbl(0.001, 0.1))
             ElseIf (rndNum > 40) And (rndNum < 79) Then
