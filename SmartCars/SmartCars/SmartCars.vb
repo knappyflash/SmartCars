@@ -28,7 +28,7 @@
             For j As Integer = 0 To Cars(i).sensors.Length - 1
                 inputs(j) = Cars(i).sensors(j).SensorValue
             Next
-            inputs(11) = Cars(i).Speed
+            inputs(11) = Cars(i).GroundSpeed
             outputs = Me.GeneticAlgorithm.NeuralNetworks(i).PropogateForward(inputs)
 
             Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = Me.Cars(i).Odometer
