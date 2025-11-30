@@ -1,7 +1,7 @@
 ﻿Public Class Sensor
     Public SensorValue As Integer
     Public sensorHead As New Rectangle(0, 0, 4, 4)
-    Public minLength As Integer = 20
+    Public minLength As Integer = 0
     Public length As Integer
     Public angleRadians As Double
     Public startX As Integer
