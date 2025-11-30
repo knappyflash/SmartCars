@@ -1,5 +1,5 @@
 ﻿Public Class DrawBestNeuralNetwork
-    Public NeuralNetworkBitmap As New Bitmap(750, 350)
+    Public NeuralNetworkBitmap As New Bitmap(225, 370)
     Public car As Car
     Public neuralNetwork As NeuralNetwork
     Public geneticAlgorithm As GeneticAlgorithm
@@ -16,7 +16,9 @@
                 g.DrawString(input.ToString("F2"), myFont, Brushes.Black, x, y, myFormat)
                 Me.y += 20
             Next
-            g.DrawString("Sensors & Speed^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Gas, Break, Left, Right", myFont, Brushes.Black, x, y, myFormat)
+            g.DrawString("Sensors & Speed", myFont, Brushes.Black, x, y, myFormat)
+            Me.y += 20
+            g.DrawString("Gas, Break, Left, Right", myFont, Brushes.Black, x, y, myFormat)
 
             Me.x += 60
             Me.y = 0
@@ -32,7 +34,7 @@
 
             Me.x = Me.NeuralNetworkBitmap.Width - 60
             Me.y = 0
-            For Each neuron As Neuron In Me.neuralNetwork.NeuronLayers(11).Neurons
+            For Each neuron As Neuron In Me.neuralNetwork.NeuronLayers(Me.neuralNetwork.NeuronLayers.Length - 1).Neurons
                 g.DrawString(neuron.OutputLinear.ToString("F2"), myFont, Brushes.Red, x, y, myFormat)
                 Me.y += 20
             Next
