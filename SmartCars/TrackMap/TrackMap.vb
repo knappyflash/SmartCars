@@ -66,13 +66,31 @@ Public Class TrackMap
 
     Private Sub CreateTrack()
 
-        Me.TrackTiles(0, 0).ChangeTileType(TrackImages.TrackTileType.turnBottomToRight)
-
         Dim x As Integer = 0
         Dim y As Integer = 0
 
         'Head Down and Right
         Do Until (x = widthTileCount - 1) Or (y = heightTileCount - 1)
+
+            If x = 0 And y = 0 Then
+                Me.TrackTiles(0, 0).ChangeTileType(TrackImages.TrackTileType.turnBottomToRight)
+                x = 1
+            ElseIf x = 1 And y = 0 Then
+                Me.TrackTiles(1, 0).ChangeTileType(TrackImages.TrackTileType.turnBottomToLeft)
+                x = 1
+                y = 1
+            ElseIf x = 1 And y = 1 Then
+                Me.TrackTiles(1, 1).ChangeTileType(TrackImages.TrackTileType.turnTopToRight)
+                x = 2
+                y = 1
+            ElseIf x = 2 And y = 1 Then
+                Me.TrackTiles(2, 1).ChangeTileType(TrackImages.TrackTileType.turnTopToLeft)
+                x = 2
+                y = 0
+            ElseIf x = 2 And y = 0 Then
+                Me.TrackTiles(2, 0).ChangeTileType(TrackImages.TrackTileType.turnBottomToRight)
+            End If
+
             If TrackTiles(x, y).TileType = TrackImages.TrackTileType.strightVertical Then
                 y += 1
                 Select Case Maths.RandomInt(0, 1)
@@ -129,6 +147,7 @@ Public Class TrackMap
                 End Select
 
             End If
+
         Loop
 
 
