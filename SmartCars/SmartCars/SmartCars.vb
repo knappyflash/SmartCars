@@ -58,6 +58,7 @@
                 Me.Cars(i).wheelTurnLeft = False
             End If
 
+
             Me.Cars(i).Move()
 
         Next
