@@ -42,6 +42,7 @@ Public Class Car
     Public BodyRect As New Rectangle(0, 0, 20, 10)
     Public sensors(4) As Sensor
     Public SensorValuesCurrentMin As Double
+    Public sensorVisible As Boolean = False
     Public FitnessScoreValue As Double
 
     Public GroundSpeed As Double

@@ -23,28 +23,35 @@
         Next
         Me.SortNeuralNetworksByFitness()
 
-        If GenerationCounter > 5 Then
+        If Me.GenerationCounter >= 1 Then
             Me.KillBadPerformers()
             Me.Clones()
-            Generation += 1
-            GenerationCounter = 0
+            Me.Crossovers()
+            Me.Generation += 1
+            Me.GenerationCounter = 0
         End If
         Me.Mutations()
-        GenerationCounter = GenerationCounter + 1
+        Me.GenerationCounter = Me.GenerationCounter + 1
     End Sub
 
     Public Sub SortNeuralNetworksByFitness()
-        Dim sortedNeuralNetworks = NeuralNetworks.OrderByDescending(Function(nn) nn.FitnessScoreBest).ToList
+        Dim sortedNeuralNetworks = Me.NeuralNetworks.OrderByDescending(Function(nn) nn.FitnessScoreBest).ToList
         Me.NeuralNetworks = sortedNeuralNetworks
     End Sub
 
     Public Sub KillBadPerformers()
-        Me.NeuralNetworks.RemoveRange(1, 99)
+        Me.NeuralNetworks.RemoveRange(10, 90)
     End Sub
 
     Public Sub Clones()
-        For i As Integer = 1 To Me.PopulationSize
-            Me.NeuralNetworks.Add(New NeuralNetwork(NeuralNetworks(0)))
+        For i As Integer = 1 To 45
+            Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(0)))
+        Next i
+    End Sub
+
+    Public Sub Crossovers()
+        For i As Integer = 1 To 45
+            Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(Maths.RandomInt(0, 9)), Me.NeuralNetworks(Maths.RandomInt(0, 9))))
         Next i
     End Sub
 
@@ -54,7 +61,7 @@
 
             rndNum = Maths.RandomInt(0, 100)
 
-            If (rndNum > 0) And (rndNum < 49) Then
+            If (rndNum > 0) And (rndNum < 89) Then
                 Me.NeuralNetworks(i).MutateOnlyOneThing()
             Else
                 Me.NeuralNetworks(i).Randomize()

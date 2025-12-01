@@ -29,6 +29,7 @@
         Me.HiddenLayerCount = neuralNetwork.HiddenLayerCount
         Me.NeuronsPerHiddenLayer = neuralNetwork.NeuronsPerHiddenLayer
         Me.CreateNewNeuralNetwork()
+        CopyNetwork(neuralNetwork)
     End Sub
 
     'Create a New Crossover NeuralNetwork From Two Existing Parents
@@ -38,6 +39,7 @@
         Me.HiddenLayerCount = neuralNetwork1.HiddenLayerCount
         Me.NeuronsPerHiddenLayer = neuralNetwork1.NeuronsPerHiddenLayer
         Me.CreateNewNeuralNetwork()
+        CopyNetwork(neuralNetwork1)
         Me.Crossover(neuralNetwork2)
     End Sub
 
@@ -88,14 +90,27 @@
         Next
     End Sub
 
+    Public Sub CopyNetwork(neuralNetwork As NeuralNetwork)
+        For i As Integer = 1 To Me.NeuronLayers.Length - 1
+            For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
+                Me.NeuronLayers(i).Neurons(j).Bias = neuralNetwork.NeuronLayers(i).Neurons(j).Bias
+                For k As Integer = 0 To Me.NeuronLayers(i).Neurons(j).InputWeights.Length - 1
+                    Me.NeuronLayers(i).Neurons(j).InputWeights(k) = neuralNetwork.NeuronLayers(i).Neurons(j).InputWeights(k)
+                Next
+            Next
+        Next
+    End Sub
+
     Public Sub Crossover(neuralNetwork2 As NeuralNetwork)
         ' Crossover whole nerons bias and weights togther
         For i As Integer = 1 To Me.NeuronLayers.Length - 1
             For j As Integer = 0 To Me.NeuronLayers(i).Neurons.Length - 1
-                If Maths.RandomInt(0, 1) = 1 Then Me.NeuronLayers(i).Neurons(j).Bias = neuralNetwork2.NeuronLayers(i).Neurons(j).Bias
-                For k As Integer = 0 To Me.NeuronLayers(i).Neurons(j).InputWeights.Length - 1
-                    If Maths.RandomInt(0, 1) = 1 Then Me.NeuronLayers(i).Neurons(j).InputWeights(k) = neuralNetwork2.NeuronLayers(i).Neurons(j).InputWeights(k)
-                Next
+                If Maths.RandomInt(0, 1) = 1 Then
+                    Me.NeuronLayers(i).Neurons(j).Bias = neuralNetwork2.NeuronLayers(i).Neurons(j).Bias
+                    For k As Integer = 0 To Me.NeuronLayers(i).Neurons(j).InputWeights.Length - 1
+                        Me.NeuronLayers(i).Neurons(j).InputWeights(k) = neuralNetwork2.NeuronLayers(i).Neurons(j).InputWeights(k)
+                    Next
+                End If
             Next
         Next
     End Sub

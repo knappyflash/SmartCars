@@ -279,7 +279,6 @@ Public Class TrackMap
     End Sub
 
     Private Sub MeDraw(g As Graphics)
-        Dim sensorVisible As Boolean = False
         g.DrawImage(TrackBitmap, 0, 0)
         For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
 
@@ -287,13 +286,7 @@ Public Class TrackMap
             g.FillPolygon(Me.SmartCars.Cars(i).BodyBrush, Me.SmartCars.Cars(i).Body)
             g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(i).posX) + 10, CInt(Me.SmartCars.Cars(i).posY) + 5, 3, 3)
 
-            If i = 0 Then
-                sensorVisible = True
-            Else
-                sensorVisible = False
-            End If
-
-            Me.SmartCars.Cars(i).DrawSensors(g, sensorVisible)
+            Me.SmartCars.Cars(i).DrawSensors(g, Me.SmartCars.Cars(i).sensorVisible)
         Next
 
         drawNn.NeuralNetworkToBitmap()
@@ -314,6 +307,18 @@ Public Class TrackMap
         Me.TrackToBitmap()
         For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
             Me.SmartCars.Cars(i).Reset()
+            If i <= 9 Then
+                Me.SmartCars.Cars(i).BodyColor = Color.Red
+            Else
+                Me.SmartCars.Cars(i).BodyColor = Color.FromArgb(Maths.RandomInt(0, 255), Maths.RandomInt(0, 255), Maths.RandomInt(0, 255))
+            End If
+
+            If i = 0 Then
+                Me.SmartCars.Cars(i).sensorVisible = True
+            Else
+                Me.SmartCars.Cars(i).sensorVisible = False
+            End If
+
         Next
 
         drawNn.car = Me.SmartCars.Cars(0)

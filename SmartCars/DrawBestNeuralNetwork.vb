@@ -1,5 +1,5 @@
 ﻿Public Class DrawBestNeuralNetwork
-    Public NeuralNetworkBitmap As New Bitmap(225, 370)
+    Public NeuralNetworkBitmap As New Bitmap(225, 340)
     Public car As Car
     Public neuralNetwork As NeuralNetwork
     Public geneticAlgorithm As GeneticAlgorithm
@@ -48,8 +48,6 @@
             g.DrawString($"GroundSpeed: {Me.car.GroundSpeed.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
             g.DrawString($"Wall Distance: {Me.car.SensorValuesCurrentMin.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
-            Me.y -= 20
-            g.DrawString($"Generation: {Me.geneticAlgorithm.Generation}:{Me.geneticAlgorithm.GenerationCounter}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
             g.DrawString($"Generation: {Me.geneticAlgorithm.Generation}:{Me.geneticAlgorithm.GenerationCounter}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
