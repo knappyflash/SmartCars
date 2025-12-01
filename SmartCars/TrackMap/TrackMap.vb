@@ -12,8 +12,8 @@ Public Class TrackMap
 
     Public drawNn As New DrawBestNeuralNetwork
 
-    Dim widthTileCount As Integer = 11
-    Dim heightTileCount As Integer = 6
+    Public widthTileCount As Integer = 11
+    Public heightTileCount As Integer = 6
 
     Private Sub track_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Width = widthTileCount * 160
@@ -30,12 +30,14 @@ Public Class TrackMap
         drawNn.neuralNetwork = Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0)
         drawNn.geneticAlgorithm = Me.SmartCars.GeneticAlgorithm
 
-        Me.Timer1.Start()
-
         Me.FormBorderStyle = FormBorderStyle.Sizable
         Me.WindowState = WindowState.Normal
         Me.FormBorderStyle = FormBorderStyle.None
         Me.WindowState = WindowState.Maximized
+
+        Me.Timer1.Start()
+        CountDownTimer.Start()
+
     End Sub
     Private Sub track_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
         Me.MeDraw(e.Graphics)
@@ -341,6 +343,17 @@ Public Class TrackMap
     End Sub
 
 
+    Public countdownTime As Integer = 180 '3 minutes in seconds
+    Private Sub CountDownTimer_Tick(sender As Object, e As EventArgs) Handles CountDownTimer.Tick
 
+        If countdownTime <= 0 Then
+            countdownTime = 180
+            For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
+                Me.SmartCars.Cars(i).Crashed = True
+            Next
+        End If
+        countdownTime -= 1
+
+    End Sub
 
 End Class

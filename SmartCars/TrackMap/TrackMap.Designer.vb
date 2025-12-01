@@ -24,11 +24,16 @@ Partial Class TrackMap
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
         Timer1 = New Timer(components)
+        CountDownTimer = New Timer(components)
         SuspendLayout()
         ' 
         ' Timer1
         ' 
         Timer1.Interval = 1
+        ' 
+        ' CountDownTimer
+        ' 
+        CountDownTimer.Interval = 1000
         ' 
         ' TrackMap
         ' 
@@ -44,4 +49,5 @@ Partial Class TrackMap
     End Sub
 
     Friend WithEvents Timer1 As Timer
+    Friend WithEvents CountDownTimer As Timer
 End Class

@@ -38,10 +38,11 @@ Public Class Car
     Public angleDegrees As Double
     Public angleRadians As Double
     Public maxSpeed As Double = 5
-    Public maxOdometer As Double = 4000
 
     Public BodyRect As New Rectangle(0, 0, 20, 10)
     Public sensors(4) As Sensor
+    Public SensorValuesCurrentMin As Double
+    Public FitnessScoreValue As Double
 
     Public GroundSpeed As Double
     Public Crashed As Boolean
@@ -134,14 +135,15 @@ Public Class Car
         Me.killCounter = 0
         Me.angleDegrees = 0
         Me.TrackBitmap = Me.TrackBitmap
-        maxOdometer += 1
     End Sub
 
     Public Sub DrawSensors(g As Graphics, isVisible As Boolean)
+        Me.SensorValuesCurrentMin = 10000
         Dim myAngle As Double = -90
         For i As Integer = 0 To sensors.Length - 1
             sensors(i).DrawSensor(g, BodyRect, angleDegrees, Maths.DegreesModulo360(myAngle), isVisible)
             myAngle += 45
+            If Me.sensors(i).SensorValue < Me.SensorValuesCurrentMin Then Me.SensorValuesCurrentMin = Me.sensors(i).SensorValue
         Next
     End Sub
 
@@ -169,9 +171,6 @@ Public Class Car
             Me.Crashed = True
         End If
         Me.killCounter += 1
-        If Me.Odometer > maxOdometer Then
-            Me.Crashed = True
-        End If
     End Sub
 
 
