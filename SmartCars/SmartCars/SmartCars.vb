@@ -39,8 +39,7 @@
             'Fitness Evaluation
             Me.Cars(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.01) + (Me.Cars(i).GroundSpeed * 0.001)
             If Me.Cars(i).wheelTurnRight Then Me.Cars(i).FitnessScoreValue += 0.00001
-
-
+            If TrackMap.countdownTime <= 1 Then Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreBest += 500
             If Me.outputs(0) > 0.5 Then
                 Me.Cars(i).gasPedalPressed = True
             Else
