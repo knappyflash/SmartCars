@@ -39,7 +39,6 @@
             'Fitness Evaluation
             Me.Cars(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.01) + (Me.Cars(i).GroundSpeed * 0.001)
             If Me.Cars(i).wheelTurnRight Then Me.Cars(i).FitnessScoreValue += 0.00001
-            If Me.Cars(i).breakPedalPressed Then Me.Cars(i).FitnessScoreValue += 0.001
 
 
             If Me.outputs(0) > 0.5 Then
