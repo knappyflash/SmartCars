@@ -308,6 +308,7 @@ Public Class TrackMap
 
     Private Sub Reset()
         Me.SmartCars.GeneticAlgorithm.NextGeneration()
+        Me.countdownTime = 180
         Me.ClearMap()
         Me.CreateTrack()
         Me.TrackToBitmap()
