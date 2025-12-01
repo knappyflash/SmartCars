@@ -23,7 +23,7 @@
         Next
         Me.SortNeuralNetworksByFitness()
 
-        If Me.GenerationCounter >= 1 Then
+        If Me.GenerationCounter >= 5 Then
             Me.KillBadPerformers()
             Me.Clones()
             Me.Crossovers()
