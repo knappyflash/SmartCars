@@ -45,7 +45,7 @@
 
     Public Sub Clones()
         For i As Integer = 1 To 45
-            Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(0)))
+            Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(Maths.RandomInt(0, 9))))
         Next i
     End Sub
 
