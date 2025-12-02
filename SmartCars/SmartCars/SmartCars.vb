@@ -7,7 +7,6 @@
     Public StillAlive As Boolean
 
 
-
     Public Sub New()
         For i As Integer = 0 To Cars.Length - 1
             Me.Cars(i) = New Car
@@ -22,11 +21,18 @@
         For i As Integer = 0 To Me.Cars.Length - 1
 
             If Cars(i).Crashed Then
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = Me.Cars(i).Odometer + Me.Cars(i).FitnessScoreValue
+                If Me.Cars(i).CanReceivePoint Then Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = Me.Cars(i).Odometer + Me.Cars(i).FitnessScoreValue
                 Me.Cars(i).FitnessScoreValue = 0
                 Continue For
             End If
             Me.StillAlive = True
+
+
+            If Not Me.Cars(i).CanReceivePoint Then
+                If (Me.Cars(i).posX > 270) And (Me.Cars(i).posY < 270) Then
+                    Me.Cars(i).CanReceivePoint = True
+                End If
+            End If
 
             'INPUTS TO OUTPUTS'
             For j As Integer = 0 To Me.Cars(i).sensors.Length - 1
@@ -37,8 +43,10 @@
 
 
             'Fitness Evaluation
-            Me.Cars(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.01) + (Me.Cars(i).GroundSpeed * 0.001)
-            If TrackMap.countdownTime <= 1 Then Me.Cars(i).FitnessScoreValue += 1000
+            If Me.Cars(i).CanReceivePoint Then
+                Me.Cars(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.01) + (Me.Cars(i).GroundSpeed * 0.001)
+                If TrackMap.countdownTime <= 1 Then Me.Cars(i).FitnessScoreValue += 1000
+            End If
 
             If Me.outputs(0) > 0.5 Then
                 Me.Cars(i).gasPedalPressed = True

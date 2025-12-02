@@ -44,6 +44,7 @@ Public Class Car
     Public SensorValuesCurrentMin As Double
     Public sensorVisible As Boolean = False
     Public FitnessScoreValue As Double
+    Public CanReceivePoint As Boolean
 
     Public GroundSpeed As Double
     Public Crashed As Boolean
@@ -128,6 +129,7 @@ Public Class Car
     End Sub
 
     Public Sub Reset()
+        Me.CanReceivePoint = False
         Me.Crashed = False
         Me.posX = 90
         Me.posY = 90
