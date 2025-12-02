@@ -21,8 +21,11 @@
         For i As Integer = 0 To Me.Cars.Length - 1
 
             If Cars(i).Crashed Then
-                If Me.Cars(i).CanReceivePoint Then Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = Me.Cars(i).Odometer + Me.Cars(i).FitnessScoreValue
-                Me.Cars(i).FitnessScoreValue = 0
+                If Me.Cars(i).CanReceivePoint Then
+                    Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle = Me.Cars(i).Odometer + Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue
+                    Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle
+                End If
+                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue = 0
                 Continue For
             End If
             Me.StillAlive = True
@@ -44,8 +47,8 @@
 
             'Fitness Evaluation
             If Me.Cars(i).CanReceivePoint Then
-                Me.Cars(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.01) + (Me.Cars(i).GroundSpeed * 0.001)
-                If TrackMap.countdownTime <= 1 Then Me.Cars(i).FitnessScoreValue += 1000
+                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.01) + (Me.Cars(i).GroundSpeed * 0.001)
+                If TrackMap.countdownTime <= 1 Then Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += 1000
             End If
 
             If Me.outputs(0) > 0.5 Then

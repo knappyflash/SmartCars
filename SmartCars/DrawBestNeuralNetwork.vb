@@ -52,6 +52,8 @@
             g.DrawString($"Generation: {Me.geneticAlgorithm.Generation}:{Me.geneticAlgorithm.GenerationCounter}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
             g.DrawString($"CountDown: {TrackMap.countdownTime}", myFont, Brushes.Black, x, y, myFormat)
+            Me.y -= 20
+            g.DrawString($"Last Run Score: {Me.neuralNetwork.FitnessScoreLastCycle.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
         End Using
     End Sub
 

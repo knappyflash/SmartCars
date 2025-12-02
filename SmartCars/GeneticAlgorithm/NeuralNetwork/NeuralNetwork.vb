@@ -6,6 +6,8 @@
     Public HiddenLayerCount As Integer
     Public NeuronsPerHiddenLayer As Integer
     Public FitnessScore As Double
+    Public FitnessScoreValue As Double
+    Public FitnessScoreLastCycle As Double
     Public FitnessScoreBest As Double
 
     'Setup a Brand New NeuralNetwork

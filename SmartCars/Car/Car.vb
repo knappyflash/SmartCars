@@ -43,7 +43,6 @@ Public Class Car
     Public sensors(4) As Sensor
     Public SensorValuesCurrentMin As Double
     Public sensorVisible As Boolean = False
-    Public FitnessScoreValue As Double
     Public CanReceivePoint As Boolean
 
     Public GroundSpeed As Double
