@@ -321,9 +321,9 @@ Public Class TrackMap
     Private Sub Reset()
         Me.SmartCars.GeneticAlgorithm.NextGeneration()
         Me.countdownTime = 180
-        Me.ClearMap()
-        Me.CreateTrack()
-        Me.TrackToBitmap()
+        'Me.ClearMap()
+        'Me.CreateTrack()
+        'Me.TrackToBitmap()
         For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
             Me.SmartCars.Cars(i).Reset()
             If i <= 9 Then
@@ -351,9 +351,6 @@ Public Class TrackMap
         End
     End Sub
 
-    'Private Sub TrackMap_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
-
-    'End Sub
 
     Private Sub TrackMap_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         If e.KeyCode = Keys.Escape Then
@@ -379,6 +376,12 @@ Public Class TrackMap
         End If
         countdownTime -= 1
 
+    End Sub
+
+    Private Sub TrackMap_MouseUp(sender As Object, e As MouseEventArgs) Handles Me.MouseUp
+        Me.ClearMap()
+        Me.CreateTrack()
+        Me.TrackToBitmap()
     End Sub
 
 End Class
