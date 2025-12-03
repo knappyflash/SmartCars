@@ -309,9 +309,9 @@ Public Class TrackMap
     Private Sub Reset()
         Me.SmartCars.GeneticAlgorithm.NextGeneration()
         Me.countdownTime = 180
-        Me.ClearMap()
-        Me.CreateTrack()
-        Me.TrackToBitmap()
+        'Me.ClearMap()
+        'Me.CreateTrack()
+        'Me.TrackToBitmap()
         For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
             Me.SmartCars.Cars(i).Reset()
             If i <= 9 Then

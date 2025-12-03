@@ -23,10 +23,10 @@
             End If
         Next
         Me.SortNeuralNetworksByFitness()
-        'Decay To Prevent Stagnation
-        For i As Integer = 0 To Me.NeuralNetworks.Count - 1
-            Me.NeuralNetworks(i).FitnessScoreBest -= (Me.NeuralNetworks(i).FitnessScoreBest * 0.01)
-        Next
+        ''Decay To Prevent Stagnation
+        'For i As Integer = 0 To Me.NeuralNetworks.Count - 1
+        '    Me.NeuralNetworks(i).FitnessScoreBest -= (Me.NeuralNetworks(i).FitnessScoreBest * 0.01)
+        'Next
 
         If Me.GenerationCounter >= 5 Then
             Me.KillBadPerformers()
