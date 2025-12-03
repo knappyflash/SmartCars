@@ -40,10 +40,7 @@
 
             'Fitness Evaluation
             If Me.Cars(i).CanReceivePoint Then
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.01) + (Me.Cars(i).GroundSpeed * 0.001)
-                If TrackMap.countdownTime <= 1 Then
-                    Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += (Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue * 0.1)
-                End If
+                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.01) + (Me.Cars(i).GroundSpeed * 0.1)
             End If
 
             'Help Prevent turning around
@@ -60,11 +57,6 @@
             Else
                 Me.Cars(i).breakPedalPressed = True
                 Me.Cars(i).gasPedalPressed = False
-            End If
-
-            'Help Prevent turning around
-            If Me.Cars(i).GroundSpeed < 1 Then
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue = Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue * 0.5
             End If
 
             If Me.outputs(1) > 0.5 Then
