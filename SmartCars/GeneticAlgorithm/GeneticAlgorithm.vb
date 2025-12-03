@@ -20,6 +20,7 @@
             If Me.NeuralNetworks(i).FitnessScore > Me.NeuralNetworks(i).FitnessScoreBest Then
                 Me.NeuralNetworks(i).FitnessScoreBest = Me.NeuralNetworks(i).FitnessScore
             End If
+            Me.NeuralNetworks(i).FitnessScoreBest = (Me.NeuralNetworks(i).FitnessScoreBest * 0.9)
         Next
         Me.SortNeuralNetworksByFitness()
 
