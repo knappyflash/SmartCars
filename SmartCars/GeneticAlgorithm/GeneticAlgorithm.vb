@@ -16,13 +16,17 @@
     End Sub
 
     Public Sub NextGeneration()
+        'Update Best Fitness
         For i As Integer = 0 To Me.NeuralNetworks.Count - 1
             If Me.NeuralNetworks(i).FitnessScore > Me.NeuralNetworks(i).FitnessScoreBest Then
                 Me.NeuralNetworks(i).FitnessScoreBest = Me.NeuralNetworks(i).FitnessScore
             End If
-            Me.NeuralNetworks(i).FitnessScoreBest = (Me.NeuralNetworks(i).FitnessScoreBest * 0.9)
         Next
         Me.SortNeuralNetworksByFitness()
+        'Decay To Prevent Stagnation
+        For i As Integer = 0 To Me.NeuralNetworks.Count - 1
+            Me.NeuralNetworks(i).FitnessScoreBest -= (Me.NeuralNetworks(i).FitnessScoreBest * 0.01)
+        Next
 
         If Me.GenerationCounter >= 5 Then
             Me.KillBadPerformers()
