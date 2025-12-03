@@ -6,7 +6,6 @@
     Public outputs(3) As Double
     Public StillAlive As Boolean
 
-
     Public Sub New()
         For i As Integer = 0 To Cars.Length - 1
             Me.Cars(i) = New Car
@@ -31,12 +30,6 @@
             Me.StillAlive = True
 
 
-            If Not Me.Cars(i).CanReceivePoint Then
-                If (Me.Cars(i).posX > 270) And (Me.Cars(i).posY < 270) Then
-                    Me.Cars(i).CanReceivePoint = True
-                End If
-            End If
-
             'INPUTS TO OUTPUTS'
             For j As Integer = 0 To Me.Cars(i).sensors.Length - 1
                 Me.inputs(j) = Me.Cars(i).sensors(j).SensorValue
@@ -53,12 +46,25 @@
                 End If
             End If
 
+            'Help Prevent turning around
+            If Not Me.Cars(i).CanReceivePoint Then
+                If (Me.Cars(i).posX > 270) And (Me.Cars(i).posY < 270) Then
+                    Me.Cars(i).CanReceivePoint = True
+                End If
+            End If
+
+
             If Me.outputs(0) > 0.5 Then
                 Me.Cars(i).gasPedalPressed = True
                 Me.Cars(i).breakPedalPressed = False
             Else
                 Me.Cars(i).breakPedalPressed = True
                 Me.Cars(i).gasPedalPressed = False
+            End If
+
+            'Help Prevent turning around
+            If Me.Cars(i).GroundSpeed < 0.5 Then
+                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue = Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue * 0.5
             End If
 
             If Me.outputs(1) > 0.5 Then
