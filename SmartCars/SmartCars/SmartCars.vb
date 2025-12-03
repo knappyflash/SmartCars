@@ -48,7 +48,9 @@
             'Fitness Evaluation
             If Me.Cars(i).CanReceivePoint Then
                 Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.01) + (Me.Cars(i).GroundSpeed * 0.001)
-                If TrackMap.countdownTime <= 1 Then Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += 1000
+                If TrackMap.countdownTime <= 1 Then
+                    Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += (Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue * 0.1)
+                End If
             End If
 
             If Me.outputs(0) > 0.5 Then
