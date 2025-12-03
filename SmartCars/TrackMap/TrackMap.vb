@@ -366,10 +366,16 @@ Public Class TrackMap
 
     End Sub
 
-    Private Sub TrackMap_MouseUp(sender As Object, e As MouseEventArgs) Handles Me.MouseUp
-        Me.ClearMap()
-        Me.CreateTrack()
-        Me.TrackToBitmap()
+    Private Sub TrackMap_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles Me.MouseDoubleClick
+        If e.Button = MouseButtons.Left Then
+            Me.ClearMap()
+            Me.CreateTrack()
+            Me.TrackToBitmap()
+        ElseIf e.Button = MouseButtons.Right Then
+            For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
+                Me.SmartCars.Cars(i).Crashed = True
+            Next
+        End If
     End Sub
 
 End Class
