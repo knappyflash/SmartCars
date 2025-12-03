@@ -63,7 +63,7 @@
             End If
 
             'Help Prevent turning around
-            If Me.Cars(i).GroundSpeed < 0.5 Then
+            If Me.Cars(i).GroundSpeed < 1 Then
                 Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue = Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue * 0.5
             End If
 

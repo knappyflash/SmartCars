@@ -57,7 +57,7 @@
 
     Public Sub Mutations()
         Dim rndNum As Integer
-        For i As Integer = 1 To Me.PopulationSize - 1
+        For i As Integer = 10 To Me.PopulationSize - 1
 
             rndNum = Maths.RandomInt(0, 100)
 
