@@ -79,10 +79,6 @@ Public Class TrackMap
         HeadNorthTiles.Clear()
 
         HeadEastTiles.Add(Me.TrackTiles(0, 0))
-        'HeadEastTiles.Add(Me.TrackTiles(1, 0))
-        'HeadEastTiles.Add(Me.TrackTiles(1, 1))
-        'HeadEastTiles.Add(Me.TrackTiles(2, 1))
-        'HeadEastTiles.Add(Me.TrackTiles(2, 0))
 
         'Head Down and Right
         Do Until (x = widthTileCount - 1) Or (y = heightTileCount - 1)
@@ -288,7 +284,7 @@ Public Class TrackMap
         HeadNorthTiles.Add(Me.TrackTiles(x, y))
         Do Until y = 0
             Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.strightVertical)
-            'HeadNorthTiles.Add(Me.TrackTiles(x, y))
+            HeadNorthTiles.Add(Me.TrackTiles(x, y))
             y -= 1
         Loop
 

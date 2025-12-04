@@ -39,7 +39,7 @@
                 Me.y += 20
             Next
 
-            Me.x = 30
+            Me.x = 0
             Me.y = Me.NeuralNetworkBitmap.Height - 20
             g.DrawString($"FitnessScoreBest: {Me.neuralNetwork.FitnessScoreBest.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
