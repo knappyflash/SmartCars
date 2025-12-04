@@ -43,11 +43,48 @@
                 Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.01) + (Me.Cars(i).GroundSpeed * 0.1)
             End If
 
-            'Help Prevent turning around
-            If Not Me.Cars(i).CanReceivePoint Then
-                If (Me.Cars(i).posX > 270) And (Me.Cars(i).posY < 270) Then
-                    Me.Cars(i).CanReceivePoint = True
+            ''Help Prevent turning around
+            For Each tile As TrackTile In TrackMap.HeadEastTiles
+                If (Me.Cars(i).posX > tile.Rect.X) And
+                        (Me.Cars(i).posX < tile.Rect.X + tile.Rect.Width) And
+                        (Me.Cars(i).posY > tile.Rect.Y) And
+                        (Me.Cars(i).posY < tile.Rect.Y + tile.Rect.Height) Then
+                    Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.east
                 End If
+            Next
+            For Each tile As TrackTile In TrackMap.HeadSouthTiles
+                If (Me.Cars(i).posX > tile.Rect.X) And
+                        (Me.Cars(i).posX < tile.Rect.X + tile.Rect.Width) And
+                        (Me.Cars(i).posY > tile.Rect.Y) And
+                        (Me.Cars(i).posY < tile.Rect.Y + tile.Rect.Height) Then
+                    Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.south
+                End If
+            Next
+            For Each tile As TrackTile In TrackMap.HeadWestTiles
+                If (Me.Cars(i).posX > tile.Rect.X) And
+                        (Me.Cars(i).posX < tile.Rect.X + tile.Rect.Width) And
+                        (Me.Cars(i).posY > tile.Rect.Y) And
+                        (Me.Cars(i).posY < tile.Rect.Y + tile.Rect.Height) Then
+                    Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.west
+                End If
+            Next
+            For Each tile As TrackTile In TrackMap.HeadNorthTiles
+                If (Me.Cars(i).posX > tile.Rect.X) And
+                        (Me.Cars(i).posX < tile.Rect.X + tile.Rect.Width) And
+                        (Me.Cars(i).posY > tile.Rect.Y) And
+                        (Me.Cars(i).posY < tile.Rect.Y + tile.Rect.Height) Then
+                    Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.north
+                End If
+            Next
+
+            If ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.east) And (Me.Cars(i).GroundSpeedX < -0.1)) Or
+                ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.south) And (Me.Cars(i).GroundSpeedY < -0.1)) Or
+                ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.west) And (Me.Cars(i).GroundSpeedX > 0.1)) Or
+                ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.north) And (Me.Cars(i).GroundSpeedY > 0.1)) Then
+                Me.Cars(i).CanReceivePoint = False
+                Me.Cars(i).Crashed = True
+            Else
+                Me.Cars(i).CanReceivePoint = True
             End If
 
 

@@ -22,6 +22,13 @@ Public Class Car
         reverse = 2
     End Enum
 
+    Public Enum CorrectDirecton
+        north = 0
+        south = 1
+        east = 2
+        west = 3
+    End Enum
+
     Public BodyColor As Color = Color.Red
     Public BodyBrush As New SolidBrush(BodyColor)
     Public AccelerationValue As Double
@@ -43,10 +50,14 @@ Public Class Car
     Public sensors(4) As Sensor
     Public SensorValuesCurrentMin As Double
     Public sensorVisible As Boolean = False
-    Public CanReceivePoint As Boolean
 
+    Public CanReceivePoint As Boolean
+    Public ShouldBeHeading As CorrectDirecton = CorrectDirecton.east
     Public GroundSpeed As Double
+    Public GroundSpeedX As Double
+    Public GroundSpeedY As Double
     Public Crashed As Boolean
+    Public justReset As Boolean = False
 
     Private OdometerXY1 As New Point()
     Private OdometerXY2 As New Point()
@@ -128,8 +139,12 @@ Public Class Car
     End Sub
 
     Public Sub Reset()
+        Me.justReset = True
         Me.CanReceivePoint = False
         Me.Crashed = False
+        Me.GroundSpeed = 0
+        Me.GroundSpeedX = 0
+        Me.GroundSpeedY = 0
         Me.posX = 90
         Me.posY = 90
         Me.AccelerationValue = 0
@@ -156,10 +171,21 @@ Public Class Car
         If counter >= 100 Then
             Me.OdometerXY1.X = posX
             Me.OdometerXY1.Y = posY
+
+            Me.GroundSpeedX = Me.OdometerXY1.X - Me.OdometerXY2.X
+            Me.GroundSpeedY = Me.OdometerXY1.Y - Me.OdometerXY2.Y
             Me.GroundSpeed = Maths.GetDistance(Me.OdometerXY1.X, Me.OdometerXY1.Y, Me.OdometerXY2.X, Me.OdometerXY2.Y)
+
             Me.OdometerXY2.X = Me.OdometerXY1.X
             Me.OdometerXY2.Y = Me.OdometerXY1.Y
             Me.Odometer += Me.GroundSpeed
+
+            If Me.justReset Then
+                Me.justReset = False
+                Me.GroundSpeedX = 0
+                Me.GroundSpeedY = 0
+                Me.GroundSpeed = 0
+            End If
         End If
     End Sub
 

@@ -1,5 +1,5 @@
 ﻿Public Class DrawBestNeuralNetwork
-    Public NeuralNetworkBitmap As New Bitmap(225, 340)
+    Public NeuralNetworkBitmap As New Bitmap(225, 500)
     Public car As Car
     Public neuralNetwork As NeuralNetwork
     Public geneticAlgorithm As GeneticAlgorithm
@@ -39,14 +39,29 @@
                 Me.y += 20
             Next
 
-            Me.x = 0
+            Me.x = 30
             Me.y = Me.NeuralNetworkBitmap.Height - 20
             g.DrawString($"FitnessScoreBest: {Me.neuralNetwork.FitnessScoreBest.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
             g.DrawString($"Odometer: {Me.car.Odometer.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
+
+            Me.y -= 20
+            g.DrawString($"y: {Me.car.posY.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
+            Me.y -= 20
+            g.DrawString($"x: {Me.car.posX.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
+            Me.y -= 20
+            Me.y -= 20
+
+            g.DrawString($"y speed: {Me.car.GroundSpeedY.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
+            Me.y -= 20
+            g.DrawString($"x speed: {Me.car.GroundSpeedX.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
+            Me.y -= 20
             g.DrawString($"GroundSpeed: {Me.car.GroundSpeed.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
+            Me.y -= 20
+
+
             g.DrawString($"Wall Distance: {Me.car.SensorValuesCurrentMin.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
             g.DrawString($"Generation: {Me.geneticAlgorithm.Generation}:{Me.geneticAlgorithm.GenerationCounter}", myFont, Brushes.Black, x, y, myFormat)
@@ -54,6 +69,10 @@
             g.DrawString($"CountDown: {TrackMap.countdownTime}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
             g.DrawString($"Last Run Score: {Me.neuralNetwork.FitnessScoreLastCycle.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
+
+            Me.y -= 20
+            Me.y -= 20
+            g.DrawString($"Should Be Headed: {Me.car.ShouldBeHeading}", myFont, Brushes.Black, x, y, myFormat)
         End Using
     End Sub
 

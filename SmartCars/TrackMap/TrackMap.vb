@@ -9,11 +9,14 @@ Public Class TrackMap
 
     Public TrackBitmap As Bitmap
     Public TrackTiles(,) As TrackTile
-
     Public drawNn As New DrawBestNeuralNetwork
-
     Public widthTileCount As Integer = 11
     Public heightTileCount As Integer = 6
+
+    Public HeadEastTiles As New List(Of TrackTile)
+    Public HeadSouthTiles As New List(Of TrackTile)
+    Public HeadWestTiles As New List(Of TrackTile)
+    Public HeadNorthTiles As New List(Of TrackTile)
 
     Private Sub track_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Width = widthTileCount * 160
@@ -70,13 +73,23 @@ Public Class TrackMap
         Dim y As Integer = 0
         Dim chncFrStrtTrk As Integer = 10
 
+        HeadEastTiles.Clear()
+        HeadSouthTiles.Clear()
+        HeadWestTiles.Clear()
+        HeadNorthTiles.Clear()
+
+        HeadEastTiles.Add(Me.TrackTiles(0, 0))
+        'HeadEastTiles.Add(Me.TrackTiles(1, 0))
+        'HeadEastTiles.Add(Me.TrackTiles(1, 1))
+        'HeadEastTiles.Add(Me.TrackTiles(2, 1))
+        'HeadEastTiles.Add(Me.TrackTiles(2, 0))
+
         'Head Down and Right
         Do Until (x = widthTileCount - 1) Or (y = heightTileCount - 1)
 
             If x = 0 And y = 0 Then
                 Me.TrackTiles(0, 0).ChangeTileType(TrackImages.TrackTileType.turnBottomToRight)
                 x = 1
-
 
             ElseIf x = 1 And y = 0 Then
                 Me.TrackTiles(1, 0).ChangeTileType(TrackImages.TrackTileType.turnBottomToLeft)
@@ -103,6 +116,7 @@ Public Class TrackMap
 
             If TrackTiles(x, y).TileType = TrackImages.TrackTileType.strightVertical Then
                 y += 1
+                'HeadEastTiles.Add(Me.TrackTiles(x, y))
                 If Maths.RandomInt(0, 100) < chncFrStrtTrk Then
                     Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.strightVertical)
                 Else
@@ -112,6 +126,7 @@ Public Class TrackMap
 
             ElseIf Me.TrackTiles(x, y).TileType = TrackImages.TrackTileType.strightHorizontal Then
                 x += 1
+                'HeadEastTiles.Add(Me.TrackTiles(x, y))
                 If Maths.RandomInt(0, 100) < chncFrStrtTrk Then
                     Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.strightHorizontal)
                 Else
@@ -121,6 +136,7 @@ Public Class TrackMap
 
             ElseIf Me.TrackTiles(x, y).TileType = TrackImages.TrackTileType.turnTopToRight Then
                 x += 1
+                'HeadEastTiles.Add(Me.TrackTiles(x, y))
                 If Maths.RandomInt(0, 100) < chncFrStrtTrk Then
                     Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.strightHorizontal)
                 Else
@@ -130,11 +146,13 @@ Public Class TrackMap
 
             ElseIf Me.TrackTiles(x, y).TileType = TrackImages.TrackTileType.turnTopToLeft Then
                 y -= 1
+                'HeadEastTiles.Add(Me.TrackTiles(x, y))
                 Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.turnBottomToRight)
 
 
             ElseIf Me.TrackTiles(x, y).TileType = TrackImages.TrackTileType.turnBottomToRight Then
                 x += 1
+                'HeadEastTiles.Add(Me.TrackTiles(x, y))
                 If Maths.RandomInt(0, 100) < chncFrStrtTrk Then
                     Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.strightHorizontal)
                 Else
@@ -144,6 +162,7 @@ Public Class TrackMap
 
             ElseIf Me.TrackTiles(x, y).TileType = TrackImages.TrackTileType.turnBottomToLeft Then
                 y += 1
+                'HeadEastTiles.Add(Me.TrackTiles(x, y))
                 If Maths.RandomInt(0, 100) < chncFrStrtTrk Then
                     Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.strightVertical)
                 Else
@@ -157,6 +176,7 @@ Public Class TrackMap
         If x = widthTileCount - 1 Then Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.turnBottomToLeft)
         Do Until (y = heightTileCount - 1)
             y += 1
+            HeadSouthTiles.Add(Me.TrackTiles(x, y))
             Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.strightVertical)
         Loop
         Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.turnTopToLeft)
@@ -168,6 +188,7 @@ Public Class TrackMap
 
             If Me.TrackTiles(x, y).TileType = TrackImages.TrackTileType.strightVertical Then
                 y -= 1
+                HeadWestTiles.Add(Me.TrackTiles(x, y))
                 If Me.TrackTiles(x, y - 1).TileType <> TrackImages.TrackTileType.grass Or Me.TrackTiles(x - 1, y - 1).TileType <> TrackImages.TrackTileType.grass Then
                     Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.turnBottomToLeft)
                 Else
@@ -181,10 +202,13 @@ Public Class TrackMap
 
             ElseIf Me.TrackTiles(x, y).TileType = TrackImages.TrackTileType.strightHorizontal Then
                 x -= 1
+                HeadWestTiles.Add(Me.TrackTiles(x, y))
                 If Me.TrackTiles(x, y).TileType <> TrackImages.TrackTileType.grass Then
                     x += 1
+                    HeadWestTiles.Add(Me.TrackTiles(x, y))
                     Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.turnBottomToRight)
                     y += 1
+                    HeadWestTiles.Add(Me.TrackTiles(x, y))
                     Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.turnTopToLeft)
 
 
@@ -203,6 +227,7 @@ Public Class TrackMap
 
             ElseIf Me.TrackTiles(x, y).TileType = TrackImages.TrackTileType.turnTopToRight Then
                 y -= 1
+                HeadWestTiles.Add(Me.TrackTiles(x, y))
                 If Me.TrackTiles(x, y - 1).TileType <> TrackImages.TrackTileType.grass Or Me.TrackTiles(x - 1, y - 1).TileType <> TrackImages.TrackTileType.grass Then
                     Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.turnBottomToLeft)
                 Else
@@ -215,6 +240,7 @@ Public Class TrackMap
 
             ElseIf Me.TrackTiles(x, y).TileType = TrackImages.TrackTileType.turnTopToLeft Then
                 x -= 1
+                HeadWestTiles.Add(Me.TrackTiles(x, y))
                 If Me.TrackTiles(x, y - 1).TileType <> TrackImages.TrackTileType.grass Or Me.TrackTiles(x - 1, y - 1).TileType <> TrackImages.TrackTileType.grass Then
                     Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.strightHorizontal)
 
@@ -230,6 +256,7 @@ Public Class TrackMap
 
             ElseIf Me.TrackTiles(x, y).TileType = TrackImages.TrackTileType.turnBottomToLeft Then
                 x -= 1
+                HeadWestTiles.Add(Me.TrackTiles(x, y))
                 If Me.TrackTiles(x, y - 1).TileType <> TrackImages.TrackTileType.grass Or Me.TrackTiles(x - 1, y - 1).TileType <> TrackImages.TrackTileType.grass Then
                     Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.strightHorizontal)
 
@@ -253,13 +280,15 @@ Public Class TrackMap
                 Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.strightHorizontal)
             End If
 
-
+            HeadWestTiles.Add(Me.TrackTiles(x, y))
             x -= 1
         Loop
         Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.turnTopToRight)
         y -= 1
+        HeadNorthTiles.Add(Me.TrackTiles(x, y))
         Do Until y = 0
             Me.TrackTiles(x, y).ChangeTileType(TrackImages.TrackTileType.strightVertical)
+            'HeadNorthTiles.Add(Me.TrackTiles(x, y))
             y -= 1
         Loop
 
