@@ -24,7 +24,7 @@
         Next
         Me.SortNeuralNetworksByFitness()
         'Decay To Prevent Stagnation
-        For i As Integer = 0 To 9
+        For i As Integer = 0 To Me.NeuralNetworks.Count - 1
             Me.NeuralNetworks(i).FitnessScoreBest -= (Me.NeuralNetworks(i).FitnessScoreBest * 0.001)
         Next
 
@@ -69,7 +69,7 @@
             If (rndNum > 0) And (rndNum < 89) Then
                 Me.NeuralNetworks(i).MutateOnlyOneThing()
             Else
-                Me.NeuralNetworks(i).Randomize()
+                If Me.NeuralNetworks(0).FitnessScoreBest < 2000 Then Me.NeuralNetworks(i).Randomize()
             End If
 
             'If (rndNum > 0) And (rndNum < 39) Then
