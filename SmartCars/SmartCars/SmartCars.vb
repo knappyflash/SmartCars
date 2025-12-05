@@ -78,10 +78,10 @@
             Next
 
 
-            If ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.east) And (Me.Cars(i).GroundSpeedX < -0.1)) Or
-                ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.south) And (Me.Cars(i).GroundSpeedY < -0.1)) Or
-                ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.west) And (Me.Cars(i).GroundSpeedX > 0.1)) Or
-                ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.north) And (Me.Cars(i).GroundSpeedY > 0.1)) Then
+            If ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.east) And (Me.Cars(i).GroundSpeedX < -1.0)) Or
+                ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.south) And (Me.Cars(i).GroundSpeedY < -1.0)) Or
+                ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.west) And (Me.Cars(i).GroundSpeedX > 1.0)) Or
+                ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.north) And (Me.Cars(i).GroundSpeedY > 1.0)) Then
                 Me.Cars(i).CanReceivePoint = False
                 Me.Cars(i).Crashed = True
             Else
