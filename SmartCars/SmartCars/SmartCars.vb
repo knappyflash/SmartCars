@@ -9,7 +9,7 @@
     Public Sub New()
         For i As Integer = 0 To Cars.Length - 1
             Me.Cars(i) = New Car
-            Me.Cars(i).BodyColor = Color.FromArgb(Maths.RandomInt(0, 255), Maths.RandomInt(0, 255), Maths.RandomInt(0, 255))
+            Me.Cars(i).BodyColor = Color.FromArgb(255 * (i / 100), 255 * ((100 - i) / 100), 0)
             Me.Cars(i).BodyBrush.Color = Me.Cars(i).BodyColor
         Next
     End Sub
@@ -40,7 +40,7 @@
 
             'Fitness Evaluation
             If Me.Cars(i).CanReceivePoint Then
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.01) + (Me.Cars(i).GroundSpeed * 0.0001)
+                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.1) + (Me.Cars(i).GroundSpeed * 0.00001)
             End If
 
             ''Help Prevent turning around

@@ -38,6 +38,8 @@ Public Class TrackMap
         Me.FormBorderStyle = FormBorderStyle.None
         Me.WindowState = WindowState.Maximized
 
+        Me.ShowInTaskbar = True
+
         Me.Timer1.Start()
         CountDownTimer.Start()
 

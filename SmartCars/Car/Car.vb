@@ -178,7 +178,7 @@ Public Class Car
 
             Me.OdometerXY2.X = Me.OdometerXY1.X
             Me.OdometerXY2.Y = Me.OdometerXY1.Y
-            Me.Odometer += Me.GroundSpeed
+            Me.Odometer += Me.GroundSpeed * 0.001
 
             If Me.justReset Then
                 Me.justReset = False

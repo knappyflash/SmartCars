@@ -43,6 +43,7 @@ Partial Class TrackMap
         ClientSize = New Size(1323, 522)
         DoubleBuffered = True
         Name = "TrackMap"
+        ShowInTaskbar = False
         Text = "track"
         TopMost = True
         ResumeLayout(False)
