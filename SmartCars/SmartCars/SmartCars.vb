@@ -40,7 +40,7 @@
 
             'Fitness Evaluation
             If Me.Cars(i).CanReceivePoint Then
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.01) + (Me.Cars(i).GroundSpeed * 0.1)
+                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.01) + (Me.Cars(i).GroundSpeed * 0.0001)
             End If
 
             ''Help Prevent turning around
@@ -77,9 +77,10 @@
                 End If
             Next
 
-            '((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.west) And (Me.Cars(i).GroundSpeedX > 0.1)) Or
+
             If ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.east) And (Me.Cars(i).GroundSpeedX < -0.1)) Or
                 ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.south) And (Me.Cars(i).GroundSpeedY < -0.1)) Or
+                ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.west) And (Me.Cars(i).GroundSpeedX > 0.1)) Or
                 ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.north) And (Me.Cars(i).GroundSpeedY > 0.1)) Then
                 Me.Cars(i).CanReceivePoint = False
                 Me.Cars(i).Crashed = True
