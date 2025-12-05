@@ -1,5 +1,5 @@
 ﻿Public Class SmartCars
-    Public GeneticAlgorithm As New GeneticAlgorithm(100, 6, 2, 1, 2)
+    Public GeneticAlgorithm As New GeneticAlgorithm(100, 6, 2, 2, 2)
     Public Cars(99) As Car
 
     Public inputs(5) As Double

@@ -174,7 +174,7 @@ Public Class Car
 
             Me.GroundSpeedX = Me.OdometerXY1.X - Me.OdometerXY2.X
             Me.GroundSpeedY = Me.OdometerXY1.Y - Me.OdometerXY2.Y
-            Me.GroundSpeed = Maths.GetDistance(Me.OdometerXY1.X, Me.OdometerXY1.Y, Me.OdometerXY2.X, Me.OdometerXY2.Y)
+            Me.GroundSpeed = Maths.GetDistance(Me.OdometerXY1.X, Me.OdometerXY1.Y, Me.OdometerXY2.X, Me.OdometerXY2.Y) * 100
 
             Me.OdometerXY2.X = Me.OdometerXY1.X
             Me.OdometerXY2.Y = Me.OdometerXY1.Y
@@ -191,7 +191,7 @@ Public Class Car
 
     Private killCounter As Integer
     Private Sub killCounterDo()
-        If Me.GroundSpeed >= 0.8 Then
+        If Me.GroundSpeed >= 80 Then
             Me.killCounter = 0
         End If
         If Me.killCounter > 200 Then
