@@ -39,6 +39,7 @@ Public Class TrackMap
         Me.WindowState = WindowState.Maximized
 
         Me.ShowInTaskbar = True
+        Me.ShowIcon = True
 
         Me.Timer1.Start()
         CountDownTimer.Start()

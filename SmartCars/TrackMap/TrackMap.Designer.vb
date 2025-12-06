@@ -23,6 +23,7 @@ Partial Class TrackMap
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(TrackMap))
         Timer1 = New Timer(components)
         CountDownTimer = New Timer(components)
         SuspendLayout()
@@ -42,7 +43,9 @@ Partial Class TrackMap
         AutoScroll = True
         ClientSize = New Size(1323, 522)
         DoubleBuffered = True
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Name = "TrackMap"
+        ShowIcon = False
         ShowInTaskbar = False
         Text = "track"
         TopMost = True

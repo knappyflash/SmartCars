@@ -12,6 +12,7 @@
             Me.Cars(i).BodyColor = Color.FromArgb(255 * (i / 100), 255 * ((100 - i) / 100), 0)
             Me.Cars(i).BodyBrush.Color = Me.Cars(i).BodyColor
         Next
+        Me.GeneticAlgorithm.MinFitnessScore = 2000
     End Sub
 
     Public Sub MoveCars()

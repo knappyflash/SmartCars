@@ -7,7 +7,12 @@
     <UseWindowsForms>True</UseWindowsForms>
     <MyType>WindowsForms</MyType>
     <UseWPF>True</UseWPF>
+    <ApplicationIcon>bin\Debug\net10.0-windows\smartCar.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\net10.0-windows\smartCar.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <Import Include="System.Data" />
