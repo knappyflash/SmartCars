@@ -2,7 +2,6 @@
     Public NeuralNetworks As New List(Of NeuralNetwork)
     Public PopulationSize As Integer
     Public Generation As Integer = 0
-    Public MinFitnessScore As Double
     Public Sub New(
                   populationSize As Integer,
                   inputCount As Integer,
@@ -66,7 +65,7 @@
             If (rndNum > 0) And (rndNum < 89) Then
                 Me.NeuralNetworks(i).MutateOnlyOneThing()
             Else
-                If Me.NeuralNetworks(0).FitnessScoreBest < MinFitnessScore Then Me.NeuralNetworks(i).Randomize()
+                Me.NeuralNetworks(i).Randomize()
             End If
 
         Next
