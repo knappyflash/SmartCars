@@ -28,13 +28,13 @@
             Me.NeuralNetworks(i).FitnessScoreBest -= (Me.NeuralNetworks(i).FitnessScoreBest * 0.001)
         Next
 
-        If Me.GenerationCounter >= 5 Then
-            Me.KillBadPerformers()
-            Me.Clones()
-            Me.Crossovers()
-            Me.Generation += 1
-            Me.GenerationCounter = 0
-        End If
+        'If Me.GenerationCounter >= 5 Then
+        Me.KillBadPerformers()
+        Me.Clones()
+        Me.Crossovers()
+        Me.Generation += 1
+        Me.GenerationCounter = 0
+        'End If
         Me.Mutations()
         Me.GenerationCounter = Me.GenerationCounter + 1
     End Sub
