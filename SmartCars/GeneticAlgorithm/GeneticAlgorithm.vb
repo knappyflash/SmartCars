@@ -2,7 +2,6 @@
     Public NeuralNetworks As New List(Of NeuralNetwork)
     Public PopulationSize As Integer
     Public Generation As Integer = 0
-    Public GenerationCounter As Integer
     Public Sub New(
                   populationSize As Integer,
                   inputCount As Integer,
@@ -28,15 +27,12 @@
             Me.NeuralNetworks(i).FitnessScoreBest -= (Me.NeuralNetworks(i).FitnessScoreBest * 0.001)
         Next
 
-        'If Me.GenerationCounter >= 5 Then
         Me.KillBadPerformers()
         Me.Clones()
         Me.Crossovers()
         Me.Generation += 1
-        Me.GenerationCounter = 0
         'End If
         Me.Mutations()
-        Me.GenerationCounter = Me.GenerationCounter + 1
     End Sub
 
     Public Sub SortNeuralNetworksByFitness()
