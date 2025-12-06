@@ -77,7 +77,6 @@
                 End If
             Next
 
-
             If ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.east) And (Me.Cars(i).GroundSpeedX < -1.0)) Or
                 ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.south) And (Me.Cars(i).GroundSpeedY < -1.0)) Or
                 ((Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.west) And (Me.Cars(i).GroundSpeedX > 1.0)) Or
@@ -86,6 +85,11 @@
                 Me.Cars(i).Crashed = True
             Else
                 Me.Cars(i).CanReceivePoint = True
+            End If
+
+            If (Me.Cars(i).Odometer < 200) And
+                (Me.Cars(i).posX < 300) Then
+                Me.Cars(i).CanReceivePoint = False
             End If
 
 
