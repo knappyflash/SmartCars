@@ -380,11 +380,11 @@ Public Class TrackMap
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        If UseTimer Then
+        If useTimer Then
             Me.MeUpdate()
             Me.Invalidate()
         Else
-            Do While fastForwardCounter <= FastForwardSpeed
+            Do While fastForwardCounter <= fastForwardSpeed
                 Me.MeUpdate()
                 Me.Invalidate()
                 fastForwardCounter += 1
