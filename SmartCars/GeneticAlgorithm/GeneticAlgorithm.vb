@@ -28,7 +28,7 @@
         Next
 
         Me.KillBadPerformers()
-        Me.Clones()
+        Clones()
         Me.Mutations()
         If Me.NeuralNetworks(0).FitnessScoreBest < 90 Then Me.Randomize()
         Me.Generation += 1
@@ -40,23 +40,17 @@
     End Sub
 
     Public Sub KillBadPerformers()
-        Me.NeuralNetworks.RemoveRange(1, 99)
+        Me.NeuralNetworks.RemoveRange(9, 90)
     End Sub
 
     Public Sub Clones()
-        For i As Integer = 1 To 99
+        For i As Integer = 10 To 99
             Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(0)))
         Next i
     End Sub
 
-    'Public Sub Crossovers()
-    '    For i As Integer = 1 To 45
-    '        Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(Maths.RandomInt(0, 9)), Me.NeuralNetworks(Maths.RandomInt(0, 9))))
-    '    Next i
-    'End Sub
-
     Public Sub Mutations()
-        For i As Integer = 1 To Me.PopulationSize - 1
+        For i As Integer = 10 To Me.PopulationSize - 1
             Me.NeuralNetworks(i).MutateOnlyOneThing()
         Next
     End Sub

@@ -168,11 +168,11 @@
         Dim rndNeronId As Integer
         Dim rndWeightId As Integer
 
-        For i As Integer = 0 To Maths.RandomInt(1, 2)
+        For i As Integer = 0 To Maths.RandomInt(1, 3)
             rndLayerId = Maths.RandomInt(1, Me.NeuronLayers.Length - 1)
             rndNeronId = Maths.RandomInt(1, Me.NeuronLayers(rndLayerId).Neurons.Length - 1)
             rndWeightId = Maths.RandomInt(1, Me.NeuronLayers(rndLayerId).Neurons(rndNeronId).InputWeights.Length - 1)
-            If Maths.RandomInt(0, 10) = 1 Then
+            If Maths.RandomInt(0, 5) = 1 Then
                 Me.NeuronLayers(rndLayerId).Neurons(rndNeronId).Bias = Maths.RandomInt(-1, 1)
             Else
                 Me.NeuronLayers(rndLayerId).Neurons(rndNeronId).InputWeights(rndWeightId) = Maths.RandomInt(-1, 1)

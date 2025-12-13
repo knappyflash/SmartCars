@@ -22,14 +22,16 @@ Public Class TrackMap
     Public HeadNorthTiles As New List(Of TrackTile)
 
     Private useTimer As Boolean = True
-    Private fastForwardSpeed As Integer = 20
+    Private fastForwardSpeed As Integer = 10
     Private fastForwardCounter As Integer = 0
-    Private skipFastForwardEvery As Integer = 50
 
     Private loadedCounter As Integer = 0
 
 
     Private Sub track_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        TotalReset()
+    End Sub
+    Private Sub TotalReset()
         Me.Width = widthTileCount * 160
         Me.Height = heightTileCount * 160
         Me.BackColor = Color.FromArgb(96, 142, 66)
@@ -49,6 +51,17 @@ Public Class TrackMap
 
         Me.Timer1.Start()
         CountDownTimer.Start()
+
+        Me.GoalReached = False
+        Me.SmartCars.GeneticAlgorithm.Generation = 0
+        For Each nn As NeuralNetwork In Me.SmartCars.GeneticAlgorithm.NeuralNetworks
+            nn.FitnessScoreBest = -500
+            nn.FitnessScore = 0
+            nn.FitnessScoreLastCycle = 0
+            nn.FitnessScoreValue = 0
+            nn.Randomize()
+        Next
+        Me.SmartCars.GeneticAlgorithm.NextGeneration()
 
     End Sub
     Private Sub track_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
@@ -318,7 +331,7 @@ Public Class TrackMap
             Me.useTimer = False
 
             If Me.SmartCars.GeneticAlgorithm.Generation >= 1000 Then Me.GoalReached = True
-            If Me.GoalReached Then TotalReset()
+            If Me.GoalReached Then Me.TotalReset()
             If Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0).FitnessScoreBest > Me.ScoreGoal Then
                 Me.GoalReached = True
                 Me.useTimer = True
@@ -341,18 +354,7 @@ Public Class TrackMap
 
     End Sub
 
-    Private Sub TotalReset()
-        Me.GoalReached = False
-        Me.SmartCars.GeneticAlgorithm.Generation = 0
-        For Each nn As NeuralNetwork In Me.SmartCars.GeneticAlgorithm.NeuralNetworks
-            nn.FitnessScoreBest = -500
-            nn.FitnessScore = 0
-            nn.FitnessScoreLastCycle = 0
-            nn.FitnessScoreValue = 0
-            nn.Randomize()
-        Next
-        Me.SmartCars.GeneticAlgorithm.NextGeneration()
-    End Sub
+
 
     Private Sub MeDraw(g As Graphics)
         g.DrawImage(TrackBitmap, 0, 0)
