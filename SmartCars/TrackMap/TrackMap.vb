@@ -26,6 +26,8 @@ Public Class TrackMap
     Private fastForwardCounter As Integer = 0
     Private skipFastForwardEvery As Integer = 50
 
+    Private loadedCounter As Integer = 0
+
 
     Private Sub track_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Width = widthTileCount * 160
@@ -41,11 +43,6 @@ Public Class TrackMap
         drawNn.car = Me.SmartCars.Cars(0)
         drawNn.neuralNetwork = Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0)
         drawNn.geneticAlgorithm = Me.SmartCars.GeneticAlgorithm
-
-        Me.FormBorderStyle = FormBorderStyle.Sizable
-        Me.WindowState = WindowState.Normal
-        Me.FormBorderStyle = FormBorderStyle.None
-        Me.WindowState = WindowState.Maximized
 
         Me.ShowInTaskbar = True
         Me.ShowIcon = True
@@ -320,21 +317,32 @@ Public Class TrackMap
         If Not Me.SmartCars.StillAlive Then
             Me.useTimer = False
 
-            If GoalReached Then TotalReset()
-            If Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0).FitnessScoreBest > ScoreGoal Then
-                GoalReached = True
+            If Me.SmartCars.GeneticAlgorithm.Generation >= 1000 Then Me.GoalReached = True
+            If Me.GoalReached Then TotalReset()
+            If Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0).FitnessScoreBest > Me.ScoreGoal Then
+                Me.GoalReached = True
                 Me.useTimer = True
             Else
-                GoalReached = False
+                Me.GoalReached = False
                 Me.useTimer = False
             End If
 
             Me.Reset()
         End If
+
+
+        If Me.loadedCounter >= 3 Then
+            Me.FormBorderStyle = FormBorderStyle.None
+            Me.WindowState = WindowState.Maximized
+        Else
+            loadedCounter += 1
+        End If
+
+
     End Sub
 
     Private Sub TotalReset()
-        GoalReached = False
+        Me.GoalReached = False
         Me.SmartCars.GeneticAlgorithm.Generation = 0
         For Each nn As NeuralNetwork In Me.SmartCars.GeneticAlgorithm.NeuralNetworks
             nn.FitnessScoreBest = -500
