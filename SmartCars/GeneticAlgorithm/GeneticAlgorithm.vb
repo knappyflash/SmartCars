@@ -31,7 +31,6 @@
         Me.Clones()
         Me.Crossovers()
         Me.Generation += 1
-        'End If
         Me.Mutations()
     End Sub
 
