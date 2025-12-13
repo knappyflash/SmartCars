@@ -18,6 +18,11 @@ Public Class TrackMap
     Public HeadWestTiles As New List(Of TrackTile)
     Public HeadNorthTiles As New List(Of TrackTile)
 
+    Private useTimer As Boolean = True
+    Private fastForwardSpeed As Integer = 20
+    Private fastForwardCounter As Integer = 0
+    Private skipFastForwardEvery As Integer = 50
+
     Private Sub track_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Width = widthTileCount * 160
         Me.Height = heightTileCount * 160
@@ -309,6 +314,9 @@ Public Class TrackMap
         Me.SmartCars.MoveCars()
 
         If Not Me.SmartCars.StillAlive Then
+            Me.UseTimer = False
+            If Me.SmartCars.GeneticAlgorithm.Generation Mod skipFastForwardEvery = 0 Then Me.useTimer = True
+            If Me.SmartCars.Cars(0).MadeFullLoop = 2 Then Me.useTimer = False
             Me.Reset()
         End If
     End Sub
@@ -316,8 +324,6 @@ Public Class TrackMap
     Private Sub MeDraw(g As Graphics)
         g.DrawImage(TrackBitmap, 0, 0)
         For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
-
-
             g.FillPolygon(Me.SmartCars.Cars(i).BodyBrush, Me.SmartCars.Cars(i).Body)
             g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(i).posX) + 10, CInt(Me.SmartCars.Cars(i).posY) + 5, 3, 3)
 
@@ -330,8 +336,17 @@ Public Class TrackMap
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        Me.MeUpdate()
-        Me.Invalidate()
+        If UseTimer Then
+            Me.MeUpdate()
+            Me.Invalidate()
+        Else
+            Do While fastForwardCounter <= FastForwardSpeed
+                Me.MeUpdate()
+                Me.Invalidate()
+                fastForwardCounter += 1
+            Loop
+            fastForwardCounter = 0
+        End If
     End Sub
 
     Private Sub Reset()

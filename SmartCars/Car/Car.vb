@@ -52,7 +52,10 @@ Public Class Car
     Public sensorVisible As Boolean = False
 
     Public CanReceivePoint As Boolean
+
     Public ShouldBeHeading As CorrectDirecton = CorrectDirecton.east
+    Public MadeFullLoop As Integer = 0
+
     Public GroundSpeed As Double
     Public GroundSpeedX As Double
     Public GroundSpeedY As Double
@@ -123,6 +126,12 @@ Public Class Car
 
         Me.BodyRect.X = CInt(Me.posX)
         Me.BodyRect.Y = CInt(Me.posY)
+
+        If (Me.ShouldBeHeading = CorrectDirecton.north) Then
+            MadeFullLoop = 1
+        ElseIf ((MadeFullLoop = 1) AndAlso (Me.ShouldBeHeading = CorrectDirecton.east)) Then
+            MadeFullLoop = 2
+        End If
 
         SetOdometer()
         killCounterDo()

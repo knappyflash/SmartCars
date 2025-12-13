@@ -6,6 +6,7 @@
     Public outputs(3) As Double
     Public StillAlive As Boolean
 
+
     Public Sub New()
         For i As Integer = 0 To Cars.Length - 1
             Me.Cars(i) = New Car
