@@ -75,6 +75,7 @@ Public Class Car
     End Sub
 
     Public Sub Move()
+
         If gear = InGear.forward Then
             If gasPedalPressed Then
                 AccelerationValue += 0.01

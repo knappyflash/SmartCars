@@ -1,5 +1,5 @@
 ﻿Public Class SmartCars
-    Public GeneticAlgorithm As New GeneticAlgorithm(100, 6, 2, 2, 2)
+    Public GeneticAlgorithm As New GeneticAlgorithm(100, 6, 2, 3, 3)
     Public Cars(99) As Car
 
     Public inputs(5) As Double
@@ -19,15 +19,13 @@
 
         Me.StillAlive = False
         For i As Integer = 0 To Me.Cars.Length - 1
+            If Cars(i).Crashed Then Continue For
 
-            If Cars(i).Crashed Then
-                If Me.Cars(i).CanReceivePoint Then
-                    Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle = Me.Cars(i).Odometer + Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue
-                    Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle
-                End If
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue = 0
-                Continue For
+            If Me.Cars(i).CanReceivePoint Then
+                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle = Me.Cars(i).Odometer + Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue
+                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle
             End If
+            Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue = 0
             Me.StillAlive = True
 
 
@@ -42,6 +40,7 @@
             'Fitness Evaluation
             If Me.Cars(i).CanReceivePoint Then
                 Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += (Me.Cars(i).SensorValuesCurrentMin * 0.1) + (Me.Cars(i).GroundSpeed * 0.00001)
+                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue += 1
             End If
 
             ''Help Prevent turning around
@@ -93,6 +92,7 @@
                 Me.Cars(i).CanReceivePoint = False
             End If
 
+            If (Me.Cars(i).posX < 300) AndAlso (Me.Cars(i).posY < 300) Then Me.Cars(i).CanReceivePoint = False
 
             If Me.outputs(0) > 0.5 Then
                 Me.Cars(i).gasPedalPressed = True

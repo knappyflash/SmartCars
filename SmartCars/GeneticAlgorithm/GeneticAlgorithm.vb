@@ -22,16 +22,16 @@
             End If
         Next
         Me.SortNeuralNetworksByFitness()
-        'Decay To Prevent Stagnation
+        ''Decay To Prevent Stagnation
         For i As Integer = 0 To Me.NeuralNetworks.Count - 1
             Me.NeuralNetworks(i).FitnessScoreBest -= (Me.NeuralNetworks(i).FitnessScoreBest * 0.001)
         Next
 
         Me.KillBadPerformers()
-        Me.Clones()
-        Me.Crossovers()
-        Me.Generation += 1
+        Clones()
         Me.Mutations()
+        If Me.NeuralNetworks(0).FitnessScoreBest < 90 Then Me.Randomize()
+        Me.Generation += 1
     End Sub
 
     Public Sub SortNeuralNetworksByFitness()
@@ -40,33 +40,24 @@
     End Sub
 
     Public Sub KillBadPerformers()
-        Me.NeuralNetworks.RemoveRange(10, 90)
+        Me.NeuralNetworks.RemoveRange(9, 90)
     End Sub
 
     Public Sub Clones()
-        For i As Integer = 1 To 45
-            Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(Maths.RandomInt(0, 9))))
-        Next i
-    End Sub
-
-    Public Sub Crossovers()
-        For i As Integer = 1 To 45
-            Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(Maths.RandomInt(0, 9)), Me.NeuralNetworks(Maths.RandomInt(0, 9))))
+        For i As Integer = 10 To 99
+            Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(0)))
         Next i
     End Sub
 
     Public Sub Mutations()
-        Dim rndNum As Integer
         For i As Integer = 10 To Me.PopulationSize - 1
+            Me.NeuralNetworks(i).MutateOnlyOneThing()
+        Next
+    End Sub
 
-            rndNum = Maths.RandomInt(0, 100)
-
-            If (rndNum > 0) And (rndNum < 89) Then
-                Me.NeuralNetworks(i).MutateOnlyOneThing()
-            Else
-                Me.NeuralNetworks(i).Randomize()
-            End If
-
+    Public Sub Randomize()
+        For i As Integer = 1 To Me.PopulationSize - 1
+            Me.NeuralNetworks(i).Randomize()
         Next
     End Sub
 
