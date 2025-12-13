@@ -314,7 +314,7 @@ Public Class TrackMap
         Me.SmartCars.MoveCars()
 
         If Not Me.SmartCars.StillAlive Then
-            Me.UseTimer = False
+            Me.useTimer = False
             If Me.SmartCars.GeneticAlgorithm.Generation Mod skipFastForwardEvery = 0 Then Me.useTimer = True
             If Me.SmartCars.Cars(0).MadeFullLoop = 2 Then Me.useTimer = False
             Me.Reset()
@@ -336,11 +336,11 @@ Public Class TrackMap
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        If UseTimer Then
+        If useTimer Then
             Me.MeUpdate()
             Me.Invalidate()
         Else
-            Do While fastForwardCounter <= FastForwardSpeed
+            Do While fastForwardCounter <= fastForwardSpeed
                 Me.MeUpdate()
                 Me.Invalidate()
                 fastForwardCounter += 1
