@@ -344,9 +344,10 @@ Public Class TrackMap
         End If
 
 
-        If Me.loadedCounter >= 3 Then
+        If Me.loadedCounter = 3 Then
             Me.FormBorderStyle = FormBorderStyle.None
             Me.WindowState = WindowState.Maximized
+            loadedCounter += 1
         Else
             loadedCounter += 1
         End If

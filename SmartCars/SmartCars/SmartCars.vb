@@ -92,6 +92,7 @@
                 Me.Cars(i).CanReceivePoint = False
             End If
 
+            If (Me.Cars(i).posX < 300) AndAlso (Me.Cars(i).posY < 300) Then Me.Cars(i).CanReceivePoint = False
 
             If Me.outputs(0) > 0.5 Then
                 Me.Cars(i).gasPedalPressed = True
