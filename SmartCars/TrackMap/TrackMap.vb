@@ -7,6 +7,9 @@ Public Class TrackMap
 
     Public SmartCars As New SmartCars
 
+    Public ScoreGoal As Integer = 2500
+    Public GoalReached As Boolean = False
+
     Public TrackBitmap As Bitmap
     Public TrackTiles(,) As TrackTile
     Public drawNn As New DrawBestNeuralNetwork
@@ -23,6 +26,7 @@ Public Class TrackMap
     Private fastForwardCounter As Integer = 0
     Private skipFastForwardEvery As Integer = 50
 
+
     Private Sub track_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Width = widthTileCount * 160
         Me.Height = heightTileCount * 160
@@ -31,8 +35,8 @@ Public Class TrackMap
         Me.TrackBitmap = New Bitmap(widthTileCount * 160, widthTileCount * 160)
         Me.Setup()
 
-        Dim answer As MsgBoxResult = MsgBox("Do you want to load your save file?", MsgBoxStyle.YesNo)
-        If answer = MsgBoxResult.Yes Then Me.SmartCars.GeneticAlgorithm = JsonParser.LoadFromFile(Of GeneticAlgorithm)($"{Application.StartupPath}\save.json")
+        'Dim answer As MsgBoxResult = MsgBox("Do you want to load your save file?", MsgBoxStyle.YesNo)
+        'If answer = MsgBoxResult.Yes Then Me.SmartCars.GeneticAlgorithm = JsonParser.LoadFromFile(Of GeneticAlgorithm)($"{Application.StartupPath}\save.json")
 
         drawNn.car = Me.SmartCars.Cars(0)
         drawNn.neuralNetwork = Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0)
@@ -314,21 +318,50 @@ Public Class TrackMap
         Me.SmartCars.MoveCars()
 
         If Not Me.SmartCars.StillAlive Then
-            Me.UseTimer = False
-            If Me.SmartCars.GeneticAlgorithm.Generation Mod skipFastForwardEvery = 0 Then Me.useTimer = True
-            If Me.SmartCars.Cars(0).MadeFullLoop = 2 Then Me.useTimer = False
+            Me.useTimer = False
+
+            If GoalReached Then TotalReset()
+            If Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0).FitnessScoreBest > ScoreGoal Then
+                GoalReached = True
+                Me.useTimer = True
+            Else
+                GoalReached = False
+                Me.useTimer = False
+            End If
+
             Me.Reset()
         End If
     End Sub
 
+    Private Sub TotalReset()
+        GoalReached = False
+        Me.SmartCars.GeneticAlgorithm.Generation = 0
+        For Each nn As NeuralNetwork In Me.SmartCars.GeneticAlgorithm.NeuralNetworks
+            nn.FitnessScoreBest = -500
+            nn.FitnessScore = 0
+            nn.FitnessScoreLastCycle = 0
+            nn.FitnessScoreValue = 0
+            nn.Randomize()
+        Next
+        Me.SmartCars.GeneticAlgorithm.NextGeneration()
+    End Sub
+
     Private Sub MeDraw(g As Graphics)
         g.DrawImage(TrackBitmap, 0, 0)
-        For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
-            g.FillPolygon(Me.SmartCars.Cars(i).BodyBrush, Me.SmartCars.Cars(i).Body)
-            g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(i).posX) + 10, CInt(Me.SmartCars.Cars(i).posY) + 5, 3, 3)
 
-            Me.SmartCars.Cars(i).DrawSensors(g, Me.SmartCars.Cars(i).sensorVisible)
-        Next
+        If Not GoalReached Then
+            For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
+                g.FillPolygon(Me.SmartCars.Cars(i).BodyBrush, Me.SmartCars.Cars(i).Body)
+                g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(i).posX) + 10, CInt(Me.SmartCars.Cars(i).posY) + 5, 3, 3)
+
+                Me.SmartCars.Cars(i).DrawSensors(g, Me.SmartCars.Cars(i).sensorVisible)
+            Next
+        Else
+            g.FillPolygon(Me.SmartCars.Cars(0).BodyBrush, Me.SmartCars.Cars(0).Body)
+            g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(0).posX) + 10, CInt(Me.SmartCars.Cars(0).posY) + 5, 3, 3)
+            Me.SmartCars.Cars(0).DrawSensors(g, False)
+        End If
+
 
         drawNn.NeuralNetworkToBitmap()
         g.DrawImage(drawNn.NeuralNetworkBitmap, Me.Width - drawNn.NeuralNetworkBitmap.Width, 0, drawNn.NeuralNetworkBitmap.Width, drawNn.NeuralNetworkBitmap.Height)
@@ -351,7 +384,7 @@ Public Class TrackMap
 
     Private Sub Reset()
         Me.SmartCars.GeneticAlgorithm.NextGeneration()
-        Me.countdownTime = 180
+        Me.countdownTime = 40
         'Me.ClearMap()
         'Me.CreateTrack()
         'Me.TrackToBitmap()
@@ -377,8 +410,8 @@ Public Class TrackMap
     End Sub
 
     Private Sub TrackMap_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        Dim answer As MsgBoxResult = MsgBox("Do you want to override you save?", MsgBoxStyle.YesNo)
-        If answer = MsgBoxResult.Yes Then JsonParser.SaveToFile(Me.SmartCars.GeneticAlgorithm, $"{Application.StartupPath}\save.json")
+        'Dim answer As MsgBoxResult = MsgBox("Do you want to override you save?", MsgBoxStyle.YesNo)
+        'If answer = MsgBoxResult.Yes Then JsonParser.SaveToFile(Me.SmartCars.GeneticAlgorithm, $"{Application.StartupPath}\save.json")
         End
     End Sub
 
@@ -396,11 +429,11 @@ Public Class TrackMap
     End Sub
 
 
-    Public countdownTime As Integer = 180 '3 minutes in seconds
+    Public countdownTime As Integer = 40 '3 minutes in seconds
     Private Sub CountDownTimer_Tick(sender As Object, e As EventArgs) Handles CountDownTimer.Tick
 
         If countdownTime <= 0 Then
-            countdownTime = 180
+            countdownTime = 40
             For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
                 Me.SmartCars.Cars(i).Crashed = True
             Next
