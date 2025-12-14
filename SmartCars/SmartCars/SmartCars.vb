@@ -13,10 +13,10 @@
 
     Public Sub MoveCars()
 
+        TrackMap.ShouldSwitchTrack = False
         Me.StillAlive = False
         For i As Integer = 0 To Me.Cars.Length - 1
-            If Cars(i).Crashed Then Continue For
-
+            If Me.Cars(i).Crashed Then Continue For
             If Me.Cars(i).CanReceivePoint Then
                 Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle = Me.Cars(i).Odometer + Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue
                 Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle
@@ -24,6 +24,7 @@
             Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue = 0
             Me.StillAlive = True
 
+            If i = 0 Then TrackMap.ShouldSwitchTrack = True
 
             'INPUTS TO OUTPUTS'
             For j As Integer = 0 To Me.Cars(i).sensors.Length - 1

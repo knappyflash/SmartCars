@@ -7,6 +7,8 @@ Public Class TrackMap
 
     Public SmartCars As New SmartCars
 
+    Public ShouldSwitchTrack As Boolean = False
+
     Public ScoreGoal As Integer = 100000
     Public GoalReached As Boolean = False
 
@@ -37,6 +39,13 @@ Public Class TrackMap
         Me.BackColor = Color.FromArgb(96, 142, 66)
         ReDim Me.TrackTiles(widthTileCount - 1, heightTileCount - 1)
         Me.TrackBitmap = New Bitmap(widthTileCount * 160, widthTileCount * 160)
+
+        For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
+            Me.SmartCars.Cars(i) = New Car
+            Me.SmartCars.Cars(i).BodyColor = Color.FromArgb(255 * (i / 100), 255 * ((100 - i) / 100), 0)
+            Me.SmartCars.Cars(i).BodyBrush.Color = Me.SmartCars.Cars(i).BodyColor
+        Next
+
         Me.SetupTrack()
 
         'Dim answer As MsgBoxResult = MsgBox("Do you want to load your save file?", MsgBoxStyle.YesNo)
@@ -62,12 +71,6 @@ Public Class TrackMap
             nn.Randomize()
         Next
         Me.SmartCars.GeneticAlgorithm.NextGeneration()
-
-        For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
-            Me.SmartCars.Cars(i) = New Car
-            Me.SmartCars.Cars(i).BodyColor = Color.FromArgb(255 * (i / 100), 255 * ((100 - i) / 100), 0)
-            Me.SmartCars.Cars(i).BodyBrush.Color = Me.SmartCars.Cars(i).BodyColor
-        Next
 
     End Sub
     Private Sub track_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
@@ -336,11 +339,6 @@ Public Class TrackMap
         If Not Me.SmartCars.StillAlive Then
             Me.useTimer = False
 
-            If Me.SmartCars.GeneticAlgorithm.Generation >= 100 Then
-                Me.SmartCars.GeneticAlgorithm.Generation = 0
-                Me.SetupTrack()
-            End If
-
             If Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0).FitnessScoreBest > Me.ScoreGoal Then
                 Me.GoalReached = True
                 Me.useTimer = True
@@ -403,6 +401,7 @@ Public Class TrackMap
     End Sub
 
     Private Sub Reset()
+        If ShouldSwitchTrack Then Me.SetupTrack()
         Me.SmartCars.GeneticAlgorithm.NextGeneration()
         Me.countdownTime = 40
         'Me.ClearMap()
