@@ -9,7 +9,7 @@ Public Class TrackMap
 
     Public ShouldSwitchTrack As Boolean = False
 
-    Public ScoreGoal As Integer = 100000
+    Public ScoreGoal As Integer = 1000000
     Public GoalReached As Boolean = False
 
     Public TrackBitmap As Bitmap
