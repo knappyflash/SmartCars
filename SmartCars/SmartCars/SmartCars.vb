@@ -13,7 +13,7 @@
 
     Public Sub MoveCars()
 
-        TrackMap.ShouldSwitchTrack = False
+
         Me.StillAlive = False
         For i As Integer = 0 To Me.Cars.Length - 1
             If Me.Cars(i).Crashed Then Continue For
@@ -23,8 +23,6 @@
             End If
             Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue = 0
             Me.StillAlive = True
-
-            If i = 0 Then TrackMap.ShouldSwitchTrack = True
 
             'INPUTS TO OUTPUTS'
             For j As Integer = 0 To Me.Cars(i).sensors.Length - 1
@@ -111,5 +109,19 @@
             Me.Cars(i).Move()
 
         Next
+
+
+        Dim HeroCrashed As Boolean = Me.Cars(0).Crashed
+        Dim OtherCrashed As Boolean = False
+        For i As Integer = 1 To Me.Cars.Length - 1
+            If Me.Cars(i).Crashed Then OtherCrashed = True
+        Next
+
+        If ((Not HeroCrashed) AndAlso (OtherCrashed)) Then
+            TrackMap.ShouldSwitchTrack = True
+        Else
+            TrackMap.ShouldSwitchTrack = False
+        End If
+
     End Sub
 End Class
