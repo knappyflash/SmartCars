@@ -30,7 +30,7 @@
         Me.KillBadPerformers()
         Clones()
         Me.Mutations()
-        If Me.NeuralNetworks(0).FitnessScoreBest < 90 Then Me.Randomize()
+        If Me.NeuralNetworks(0).FitnessScoreBest < 200 Then Me.Randomize()
         Me.Generation += 1
     End Sub
 

@@ -8,11 +8,7 @@
 
 
     Public Sub New()
-        For i As Integer = 0 To Cars.Length - 1
-            Me.Cars(i) = New Car
-            Me.Cars(i).BodyColor = Color.FromArgb(255 * (i / 100), 255 * ((100 - i) / 100), 0)
-            Me.Cars(i).BodyBrush.Color = Me.Cars(i).BodyColor
-        Next
+
     End Sub
 
     Public Sub MoveCars()

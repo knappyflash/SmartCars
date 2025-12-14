@@ -7,7 +7,7 @@ Public Class TrackMap
 
     Public SmartCars As New SmartCars
 
-    Public ScoreGoal As Integer = 2500
+    Public ScoreGoal As Integer = 100000
     Public GoalReached As Boolean = False
 
     Public TrackBitmap As Bitmap
@@ -37,7 +37,7 @@ Public Class TrackMap
         Me.BackColor = Color.FromArgb(96, 142, 66)
         ReDim Me.TrackTiles(widthTileCount - 1, heightTileCount - 1)
         Me.TrackBitmap = New Bitmap(widthTileCount * 160, widthTileCount * 160)
-        Me.Setup()
+        Me.SetupTrack()
 
         'Dim answer As MsgBoxResult = MsgBox("Do you want to load your save file?", MsgBoxStyle.YesNo)
         'If answer = MsgBoxResult.Yes Then Me.SmartCars.GeneticAlgorithm = JsonParser.LoadFromFile(Of GeneticAlgorithm)($"{Application.StartupPath}\save.json")
@@ -63,12 +63,18 @@ Public Class TrackMap
         Next
         Me.SmartCars.GeneticAlgorithm.NextGeneration()
 
+        For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
+            Me.SmartCars.Cars(i) = New Car
+            Me.SmartCars.Cars(i).BodyColor = Color.FromArgb(255 * (i / 100), 255 * ((100 - i) / 100), 0)
+            Me.SmartCars.Cars(i).BodyBrush.Color = Me.SmartCars.Cars(i).BodyColor
+        Next
+
     End Sub
     Private Sub track_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
         Me.MeDraw(e.Graphics)
     End Sub
 
-    Private Sub Setup()
+    Private Sub SetupTrack()
         Me.ClearMap()
         Me.CreateTrack()
         Me.TrackToBitmap()
@@ -330,8 +336,11 @@ Public Class TrackMap
         If Not Me.SmartCars.StillAlive Then
             Me.useTimer = False
 
-            If Me.SmartCars.GeneticAlgorithm.Generation >= 1000 Then Me.GoalReached = True
-            If Me.GoalReached Then Me.TotalReset()
+            If Me.SmartCars.GeneticAlgorithm.Generation >= 100 Then
+                Me.SmartCars.GeneticAlgorithm.Generation = 0
+                Me.SetupTrack()
+            End If
+
             If Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0).FitnessScoreBest > Me.ScoreGoal Then
                 Me.GoalReached = True
                 Me.useTimer = True
@@ -360,7 +369,7 @@ Public Class TrackMap
     Private Sub MeDraw(g As Graphics)
         g.DrawImage(TrackBitmap, 0, 0)
 
-        If Not GoalReached Then
+        If Not Me.GoalReached Then
             For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
                 g.FillPolygon(Me.SmartCars.Cars(i).BodyBrush, Me.SmartCars.Cars(i).Body)
                 g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(i).posX) + 10, CInt(Me.SmartCars.Cars(i).posY) + 5, 3, 3)
