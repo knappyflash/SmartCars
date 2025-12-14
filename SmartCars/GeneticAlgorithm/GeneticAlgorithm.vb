@@ -17,6 +17,7 @@
     Public Sub NextGeneration()
         'Update Best Fitness
         For i As Integer = 0 To Me.NeuralNetworks.Count - 1
+            Me.NeuralNetworks(i).FitnessScoreValue = 0
             If Me.NeuralNetworks(i).FitnessScore > Me.NeuralNetworks(i).FitnessScoreBest Then
                 Me.NeuralNetworks(i).FitnessScoreBest = Me.NeuralNetworks(i).FitnessScore
             End If

@@ -66,7 +66,6 @@ Public Class TrackMap
         For Each nn As NeuralNetwork In Me.SmartCars.GeneticAlgorithm.NeuralNetworks
             nn.FitnessScoreBest = -500
             nn.FitnessScore = 0
-            nn.FitnessScoreLastCycle = 0
             nn.FitnessScoreValue = 0
             nn.Randomize()
         Next
@@ -401,7 +400,15 @@ Public Class TrackMap
     End Sub
 
     Private Sub Reset()
+
+        Me.ShouldSwitchTrack = True
+        For i As Integer = 0 To Me.SmartCars.GeneticAlgorithm.NeuralNetworks.Count - 1
+            If Me.SmartCars.GeneticAlgorithm.NeuralNetworks(i).FitnessScore > Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0).FitnessScore Then
+                Me.ShouldSwitchTrack = False
+            End If
+        Next
         If ShouldSwitchTrack Then Me.SetupTrack()
+
         Me.SmartCars.GeneticAlgorithm.NextGeneration()
         Me.countdownTime = 40
         'Me.ClearMap()

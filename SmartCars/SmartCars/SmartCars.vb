@@ -18,10 +18,8 @@
         For i As Integer = 0 To Me.Cars.Length - 1
             If Me.Cars(i).Crashed Then Continue For
             If Me.Cars(i).CanReceivePoint Then
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle = Me.Cars(i).Odometer + Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle
+                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = Me.Cars(i).Odometer + Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue
             End If
-            Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreValue = 0
             Me.StillAlive = True
 
             'INPUTS TO OUTPUTS'
@@ -109,19 +107,6 @@
             Me.Cars(i).Move()
 
         Next
-
-
-        If StillAlive Then
-            Dim OtherCrashed As Boolean = False
-            For i As Integer = 1 To Me.Cars.Length - 1
-                If Me.Cars(i).Crashed Then OtherCrashed = True
-            Next
-            If ((Me.Cars(0).Crashed) AndAlso (Not OtherCrashed)) Then
-                TrackMap.ShouldSwitchTrack = False
-            Else
-                TrackMap.ShouldSwitchTrack = True
-            End If
-        End If
 
     End Sub
 End Class
