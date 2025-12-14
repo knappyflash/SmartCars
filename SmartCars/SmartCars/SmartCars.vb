@@ -111,16 +111,17 @@
         Next
 
 
-        Dim HeroCrashed As Boolean = Me.Cars(0).Crashed
-        Dim OtherCrashed As Boolean = False
-        For i As Integer = 1 To Me.Cars.Length - 1
-            If Me.Cars(i).Crashed Then OtherCrashed = True
-        Next
-
-        If ((Not HeroCrashed) AndAlso (OtherCrashed)) Then
-            TrackMap.ShouldSwitchTrack = True
-        Else
-            TrackMap.ShouldSwitchTrack = False
+        If StillAlive Then
+            Dim HeroCrashed As Boolean = Me.Cars(0).Crashed
+            Dim OtherCrashed As Boolean = False
+            For i As Integer = 1 To Me.Cars.Length - 1
+                If Me.Cars(i).Crashed Then OtherCrashed = True
+            Next
+            If ((Not HeroCrashed) AndAlso (OtherCrashed)) Then
+                TrackMap.ShouldSwitchTrack = True
+            Else
+                TrackMap.ShouldSwitchTrack = False
+            End If
         End If
 
     End Sub
