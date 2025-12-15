@@ -37,7 +37,7 @@
 
             'Fitness Evaluation
             If Me.Cars(i).CanReceivePoint Then
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle += (Me.Cars(i).SensorValuesCurrentMin * 0.1) + (Me.Cars(i).GroundSpeed * 0.00001)
+                'Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle += (Me.Cars(i).SensorValuesCurrentMin * 0.1) + (Me.Cars(i).GroundSpeed * 0.00001)
                 Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle += 1
             End If
 
