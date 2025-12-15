@@ -50,6 +50,7 @@
                     Me.Cars(i).ShouldBeHeading = Car.CorrectDirecton.east
                 End If
             Next
+            'test
             For Each tile As TrackTile In TrackMap.HeadSouthTiles
                 If (Me.Cars(i).posX > tile.Rect.X) And
                         (Me.Cars(i).posX < tile.Rect.X + tile.Rect.Width) And
