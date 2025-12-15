@@ -24,13 +24,14 @@
         Me.SortNeuralNetworksByFitness()
         ''Decay To Prevent Stagnation
         For i As Integer = 0 To Me.NeuralNetworks.Count - 1
+            Me.NeuralNetworks(i).FitnessScoreLastCycle = 0
             Me.NeuralNetworks(i).FitnessScoreBest -= (Me.NeuralNetworks(i).FitnessScoreBest * 0.001)
         Next
 
         Me.KillBadPerformers()
         Clones()
         Me.Mutations()
-        If Me.NeuralNetworks(0).FitnessScoreBest < 400 Then Me.Randomize()
+        If Me.NeuralNetworks(0).FitnessScoreBest < 10000 Then Me.Randomize()
         Me.Generation += 1
     End Sub
 

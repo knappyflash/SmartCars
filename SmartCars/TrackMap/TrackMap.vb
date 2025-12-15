@@ -7,7 +7,7 @@ Public Class TrackMap
 
     Public SmartCars As New SmartCars
 
-    Public ScoreGoal As Integer = 2500
+    Public ScoreGoal As Integer = 1000000
     Public GoalReached As Boolean = False
 
     Public TrackBitmap As Bitmap
@@ -58,7 +58,6 @@ Public Class TrackMap
             nn.FitnessScoreBest = -500
             nn.FitnessScore = 0
             nn.FitnessScoreLastCycle = 0
-            nn.FitnessScoreValue = 0
             nn.Randomize()
         Next
         Me.SmartCars.GeneticAlgorithm.NextGeneration()
