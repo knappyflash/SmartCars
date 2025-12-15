@@ -25,6 +25,7 @@
         ''Decay To Prevent Stagnation
         For i As Integer = 0 To Me.NeuralNetworks.Count - 1
             Me.NeuralNetworks(i).FitnessScoreLastCycle = 0
+            Me.NeuralNetworks(i).FitnessScore = 0
             Me.NeuralNetworks(i).FitnessScoreBest -= (Me.NeuralNetworks(i).FitnessScoreBest * 0.001)
         Next
 
