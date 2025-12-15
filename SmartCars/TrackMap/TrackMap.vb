@@ -393,11 +393,23 @@ Public Class TrackMap
     End Sub
 
     Private Sub Reset()
+
+        Dim shouldChangeTrack As Boolean = True
+        For i As Integer = 1 To Me.SmartCars.GeneticAlgorithm.NeuralNetworks.Count - 1
+            If Me.SmartCars.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle > Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0).FitnessScoreLastCycle Then
+                shouldChangeTrack = False
+            End If
+        Next
+
+        If shouldChangeTrack Then
+            Me.ClearMap()
+            Me.CreateTrack()
+            Me.TrackToBitmap()
+        End If
+
         Me.SmartCars.GeneticAlgorithm.NextGeneration()
         Me.countdownTime = 40
-        'Me.ClearMap()
-        'Me.CreateTrack()
-        'Me.TrackToBitmap()
+
         For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
             Me.SmartCars.Cars(i).Reset()
             If i <= 9 Then
