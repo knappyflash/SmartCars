@@ -56,7 +56,7 @@
     End Sub
 
     Public Sub Randomize()
-        For i As Integer = 1 To Me.PopulationSize - 1
+        For i As Integer = 0 To Me.PopulationSize - 1
             Me.NeuralNetworks(i).Randomize()
         Next
     End Sub
