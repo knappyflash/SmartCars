@@ -38,6 +38,7 @@
             If Maths.RandomInt(0, 1) = 1 Then
                 'clone
                 Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(Maths.RandomInt(0, KeepNnCount))))
+
             Else
                 'crossover
                 Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(Maths.RandomInt(0, KeepNnCount)), Me.NeuralNetworks(Maths.RandomInt(0, KeepNnCount))))
