@@ -31,7 +31,18 @@
         Next
 
         Me.KillBadPerformers()
-        Clones()
+
+
+        For i As Integer = KeepNnCount To PopulationSize - 1
+            If Maths.RandomInt(0, 1) = 1 Then
+                'clone
+                Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(Maths.RandomInt(0, KeepNnCount))))
+            Else
+                'crossover
+                Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(Maths.RandomInt(0, KeepNnCount)), Me.NeuralNetworks(Maths.RandomInt(0, KeepNnCount))))
+            End If
+        Next
+
         Me.Mutations()
         If Me.NeuralNetworks(0).FitnessScoreBest < 500 Then Me.Randomize()
         Me.Generation += 1
@@ -44,12 +55,6 @@
 
     Public Sub KillBadPerformers()
         Me.NeuralNetworks.RemoveRange(KeepNnCount, PopulationSize - KeepNnCount)
-    End Sub
-
-    Public Sub Clones()
-        For i As Integer = KeepNnCount To PopulationSize - 1
-            Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(Maths.RandomInt(0, KeepNnCount))))
-        Next i
     End Sub
 
     Public Sub Mutations()
