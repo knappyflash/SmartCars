@@ -2,6 +2,7 @@
     Public NeuralNetworks As New List(Of NeuralNetwork)
     Public PopulationSize As Integer
     Public Generation As Integer = 0
+    Public KeepNnCount As Integer = 1
     Public Sub New(
                   populationSize As Integer,
                   inputCount As Integer,
@@ -42,17 +43,17 @@
     End Sub
 
     Public Sub KillBadPerformers()
-        Me.NeuralNetworks.RemoveRange(9, 90)
+        Me.NeuralNetworks.RemoveRange(KeepNnCount, PopulationSize - KeepNnCount)
     End Sub
 
     Public Sub Clones()
-        For i As Integer = 10 To 99
+        For i As Integer = KeepNnCount To PopulationSize - 1
             Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(0)))
         Next i
     End Sub
 
     Public Sub Mutations()
-        For i As Integer = 10 To Me.PopulationSize - 1
+        For i As Integer = KeepNnCount To Me.PopulationSize - 1
             Me.NeuralNetworks(i).MutateOnlyOneThing()
         Next
     End Sub
