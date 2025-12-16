@@ -33,7 +33,8 @@
         Me.KillBadPerformers()
 
 
-        For i As Integer = KeepNnCount To PopulationSize - 1
+        Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(0)))
+        For i As Integer = KeepNnCount + 1 To PopulationSize - 1
             If Maths.RandomInt(0, 1) = 1 Then
                 'clone
                 Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(Maths.RandomInt(0, KeepNnCount))))
