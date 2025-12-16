@@ -26,13 +26,13 @@
         For i As Integer = 0 To Me.NeuralNetworks.Count - 1
             Me.NeuralNetworks(i).FitnessScoreLastCycle = 0
             Me.NeuralNetworks(i).FitnessScore = 0
-            Me.NeuralNetworks(i).FitnessScoreBest -= (Me.NeuralNetworks(i).FitnessScoreBest * 0.001)
+            Me.NeuralNetworks(i).FitnessScoreBest -= (Me.NeuralNetworks(i).FitnessScoreBest * 0.1)
         Next
 
         Me.KillBadPerformers()
         Clones()
         Me.Mutations()
-        If Me.NeuralNetworks(0).FitnessScoreBest < 400 Then Me.Randomize()
+        If Me.NeuralNetworks(0).FitnessScoreBest < 500 Then Me.Randomize()
         Me.Generation += 1
     End Sub
 
