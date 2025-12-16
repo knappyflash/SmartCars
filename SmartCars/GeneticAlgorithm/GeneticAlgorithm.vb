@@ -48,7 +48,7 @@
 
     Public Sub Clones()
         For i As Integer = KeepNnCount To PopulationSize - 1
-            Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(0)))
+            Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(Maths.RandomInt(0, KeepNnCount))))
         Next i
     End Sub
 
