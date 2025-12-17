@@ -22,8 +22,10 @@ Public Class TrackMap
     Public HeadNorthTiles As New List(Of TrackTile)
 
     Public ShouldChangeTrack As Boolean = False
+    Public HeroSurvivedCounter As Integer = 0
+    Public DrawHeroOnly As Boolean = False
 
-    Private useTimer As Boolean = True
+    Private useTimer As Boolean = False
     Private fastForwardSpeed As Integer = 10
     Private fastForwardCounter As Integer = 0
 
@@ -333,14 +335,6 @@ Public Class TrackMap
 
             If Me.SmartCars.GeneticAlgorithm.Generation >= 1000 Then Me.GoalReached = True
             If Me.GoalReached Then Me.TotalReset()
-            If Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0).FitnessScoreBest > Me.ScoreGoal Then
-                Me.GoalReached = True
-                Me.useTimer = True
-            Else
-                Me.GoalReached = False
-                Me.useTimer = False
-            End If
-
             Me.Reset()
         End If
 
@@ -361,19 +355,18 @@ Public Class TrackMap
     Private Sub MeDraw(g As Graphics)
         g.DrawImage(TrackBitmap, 0, 0)
 
-        If Not GoalReached Then
+        If DrawHeroOnly Then
+            g.FillPolygon(Me.SmartCars.Cars(0).BodyBrush, Me.SmartCars.Cars(0).Body)
+            g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(0).posX) + 10, CInt(Me.SmartCars.Cars(0).posY) + 5, 3, 3)
+            Me.SmartCars.Cars(0).DrawSensors(g, False)
+        Else
             For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
                 g.FillPolygon(Me.SmartCars.Cars(i).BodyBrush, Me.SmartCars.Cars(i).Body)
                 g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(i).posX) + 10, CInt(Me.SmartCars.Cars(i).posY) + 5, 3, 3)
 
                 Me.SmartCars.Cars(i).DrawSensors(g, Me.SmartCars.Cars(i).sensorVisible)
-            Next
-        Else
-            g.FillPolygon(Me.SmartCars.Cars(0).BodyBrush, Me.SmartCars.Cars(0).Body)
-            g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(0).posX) + 10, CInt(Me.SmartCars.Cars(0).posY) + 5, 3, 3)
-            Me.SmartCars.Cars(0).DrawSensors(g, False)
+            Next i
         End If
-
 
         drawNn.NeuralNetworkToBitmap()
         g.DrawImage(drawNn.NeuralNetworkBitmap, Me.Width - drawNn.NeuralNetworkBitmap.Width, 0, drawNn.NeuralNetworkBitmap.Width, drawNn.NeuralNetworkBitmap.Height)
@@ -451,9 +444,18 @@ Public Class TrackMap
         If countdownTime <= 0 Then
             countdownTime = 40
             If Me.SmartCars.Cars(0).Crashed Then
+                HeroSurvivedCounter = 0
                 Me.ShouldChangeTrack = False
             Else
+                HeroSurvivedCounter += 1
                 Me.ShouldChangeTrack = True
+            End If
+            If HeroSurvivedCounter >= 10 Then
+                useTimer = True
+                DrawHeroOnly = True
+            Else
+                useTimer = False
+                DrawHeroOnly = False
             End If
             For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
                 If Me.SmartCars.Cars(i).Crashed Then
