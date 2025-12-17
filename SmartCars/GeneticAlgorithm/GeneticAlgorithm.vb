@@ -29,10 +29,10 @@
             Me.NeuralNetworks(i).FitnessScoreBest -= (Me.NeuralNetworks(i).FitnessScoreBest * 0.1)
         Next
 
-        Me.KillBadPerformers()
-        Clones()
-        Me.Mutations()
-        If Me.NeuralNetworks(0).FitnessScoreBest < 500 Then Me.Randomize()
+        Me.KillBadPerformers(1, 99)
+        Me.Clones(0, 99)
+        Me.Mutations(1, 99)
+        If Me.NeuralNetworks(0).FitnessScoreBest < 600 Then Me.Randomize(0, 99)
         Me.Generation += 1
     End Sub
 
@@ -41,24 +41,24 @@
         Me.NeuralNetworks = sortedNeuralNetworks
     End Sub
 
-    Public Sub KillBadPerformers()
-        Me.NeuralNetworks.RemoveRange(9, 90)
+    Public Sub KillBadPerformers(indexStart As Integer, count As Integer)
+        Me.NeuralNetworks.RemoveRange(indexStart, count)
     End Sub
 
-    Public Sub Clones()
-        For i As Integer = 10 To 99
-            Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(0)))
+    Public Sub Clones(sourceIndex As Integer, count As Integer)
+        For i As Integer = 1 To count
+            Me.NeuralNetworks.Add(New NeuralNetwork(Me.NeuralNetworks(sourceIndex)))
         Next i
     End Sub
 
-    Public Sub Mutations()
-        For i As Integer = 10 To Me.PopulationSize - 1
+    Public Sub Mutations(indexStart As Integer, indexEnd As Integer)
+        For i As Integer = indexStart To indexEnd
             Me.NeuralNetworks(i).MutateOnlyOneThing()
         Next
     End Sub
 
-    Public Sub Randomize()
-        For i As Integer = 0 To Me.PopulationSize - 1
+    Public Sub Randomize(indexStart As Integer, indexEnd As Integer)
+        For i As Integer = indexStart To indexEnd
             Me.NeuralNetworks(i).Randomize()
         Next
     End Sub
