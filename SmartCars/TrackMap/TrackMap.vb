@@ -21,6 +21,8 @@ Public Class TrackMap
     Public HeadWestTiles As New List(Of TrackTile)
     Public HeadNorthTiles As New List(Of TrackTile)
 
+    Public ShouldChangeTrack As Boolean = False
+
     Private useTimer As Boolean = True
     Private fastForwardSpeed As Integer = 10
     Private fastForwardCounter As Integer = 0
@@ -394,14 +396,7 @@ Public Class TrackMap
 
     Private Sub Reset()
 
-        Dim shouldChangeTrack As Boolean = True
-        For i As Integer = 1 To Me.SmartCars.GeneticAlgorithm.NeuralNetworks.Count - 1
-            If Me.SmartCars.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle > Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0).FitnessScoreLastCycle Then
-                shouldChangeTrack = False
-            End If
-        Next
-
-        If shouldChangeTrack Then
+        If ShouldChangeTrack Then
             Me.ClearMap()
             Me.CreateTrack()
             Me.TrackToBitmap()
@@ -455,6 +450,11 @@ Public Class TrackMap
     Private Sub CountDownTimer_Tick(sender As Object, e As EventArgs) Handles CountDownTimer.Tick
         If countdownTime <= 0 Then
             countdownTime = 40
+            If Me.SmartCars.Cars(0).Crashed Then
+                Me.ShouldChangeTrack = False
+            Else
+                Me.ShouldChangeTrack = True
+            End If
             For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
                 If Me.SmartCars.Cars(i).Crashed Then
                     Me.SmartCars.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreBest = 0
