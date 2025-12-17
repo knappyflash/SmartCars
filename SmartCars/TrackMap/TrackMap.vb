@@ -453,15 +453,18 @@ Public Class TrackMap
 
     Public countdownTime As Integer = 40 '3 minutes in seconds
     Private Sub CountDownTimer_Tick(sender As Object, e As EventArgs) Handles CountDownTimer.Tick
-
         If countdownTime <= 0 Then
             countdownTime = 40
             For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
+                If Me.SmartCars.Cars(i).Crashed Then
+                    Me.SmartCars.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreBest = 0
+                    Me.SmartCars.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = 0
+                    Me.SmartCars.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle = 0
+                End If
                 Me.SmartCars.Cars(i).Crashed = True
             Next
         End If
         countdownTime -= 1
-
     End Sub
 
     Private Sub TrackMap_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles Me.MouseDoubleClick
