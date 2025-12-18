@@ -34,6 +34,10 @@ Public Class TrackMap
 
     Private Sub track_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.TotalReset()
+        If Dir($"{Application.StartupPath}\save.json") <> "" Then
+            Dim answer As MsgBoxResult = MsgBox("Do you want to load your save file?", MsgBoxStyle.YesNo)
+            If answer = MsgBoxResult.Yes Then Me.SmartCars.GeneticAlgorithm = JsonParser.LoadFromFile(Of GeneticAlgorithm)($"{Application.StartupPath}\save.json")
+        End If
     End Sub
     Private Sub TotalReset()
         Me.Width = widthTileCount * 160
@@ -42,9 +46,6 @@ Public Class TrackMap
         ReDim Me.TrackTiles(widthTileCount - 1, heightTileCount - 1)
         Me.TrackBitmap = New Bitmap(widthTileCount * 160, widthTileCount * 160)
         Me.Setup()
-
-        'Dim answer As MsgBoxResult = MsgBox("Do you want to load your save file?", MsgBoxStyle.YesNo)
-        'If answer = MsgBoxResult.Yes Then Me.SmartCars.GeneticAlgorithm = JsonParser.LoadFromFile(Of GeneticAlgorithm)($"{Application.StartupPath}\save.json")
 
         drawNn.car = Me.SmartCars.Cars(0)
         drawNn.neuralNetwork = Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0)
@@ -380,6 +381,7 @@ Public Class TrackMap
 
         If DrawHeroOnly Then
             Me.SmartCars.Cars(0).DrawSensors(g, False)
+            Me.SmartCars.Cars(0).CanReceivePoint = False
         Else
             For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
                 g.FillPolygon(Me.SmartCars.Cars(i).BodyBrush, Me.SmartCars.Cars(i).Body)
@@ -410,8 +412,8 @@ Public Class TrackMap
     End Sub
 
     Private Sub TrackMap_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        'Dim answer As MsgBoxResult = MsgBox("Do you want to override you save?", MsgBoxStyle.YesNo)
-        'If answer = MsgBoxResult.Yes Then JsonParser.SaveToFile(Me.SmartCars.GeneticAlgorithm, $"{Application.StartupPath}\save.json")
+        Dim answer As MsgBoxResult = MsgBox("Do you want to override you save?", MsgBoxStyle.YesNo)
+        If answer = MsgBoxResult.Yes Then JsonParser.SaveToFile(Me.SmartCars.GeneticAlgorithm, $"{Application.StartupPath}\save.json")
         End
     End Sub
 
@@ -441,7 +443,7 @@ Public Class TrackMap
                 Me.ShouldChangeTrack = True
             End If
             If HeroSurvivedCounter >= 10 Then
-                useTimer = True
+                useTimer = False
                 DrawHeroOnly = True
             Else
                 useTimer = False
