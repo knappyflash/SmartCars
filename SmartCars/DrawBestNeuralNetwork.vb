@@ -1,5 +1,5 @@
 ﻿Public Class DrawBestNeuralNetwork
-    Public NeuralNetworkBitmap As New Bitmap(225, 500)
+    Public NeuralNetworkBitmap As New Bitmap(300, 500)
     Public car As Car
     Public neuralNetwork As NeuralNetwork
     Public geneticAlgorithm As GeneticAlgorithm
@@ -11,9 +11,9 @@
         Me.x = 0
         Me.y = 0
         Using g As Graphics = Graphics.FromImage(Me.NeuralNetworkBitmap)
-            g.Clear(Color.FromArgb(50, 200, 255, 200))
+            g.Clear(Color.FromArgb(200, 255, 255, 255))
             For Each input As Double In Me.neuralNetwork.NeuronLayers(0).Inputs
-                g.DrawString(input.ToString("F2"), myFont, Brushes.Black, x, y, myFormat)
+                g.DrawString(input.ToString("F0"), myFont, Brushes.Black, x, y, myFormat)
                 Me.y += 20
             Next
             g.DrawString("Sensors & Speed", myFont, Brushes.Black, x, y, myFormat)
@@ -24,7 +24,11 @@
             Me.y = 0
             For i As Integer = 1 To Me.neuralNetwork.NeuronLayers.Length - 2
                 For j As Integer = 0 To Me.neuralNetwork.NeuronLayers(i).Neurons.Length - 1
-                    g.DrawString(Me.neuralNetwork.NeuronLayers(i).Neurons(j).OutputRelu.ToString("F2"), myFont, Brushes.Black, x, y, myFormat)
+                    If Me.neuralNetwork.NeuronLayers(i).Neurons(j).OutputRelu < 0.001 Then
+                        g.DrawString(Me.neuralNetwork.NeuronLayers(i).Neurons(j).OutputRelu.ToString("F0"), myFont, Brushes.Black, x, y, myFormat)
+                    Else
+                        g.DrawString(Me.neuralNetwork.NeuronLayers(i).Neurons(j).OutputRelu.ToString("F0"), myFont, Brushes.Red, x, y, myFormat)
+                    End If
                     Me.y += 20
                 Next
                 Me.x += 60
@@ -35,13 +39,17 @@
             Me.x = Me.NeuralNetworkBitmap.Width - 60
             Me.y = 0
             For Each neuron As Neuron In Me.neuralNetwork.NeuronLayers(Me.neuralNetwork.NeuronLayers.Length - 1).Neurons
-                g.DrawString(neuron.OutputLinear.ToString("F2"), myFont, Brushes.Red, x, y, myFormat)
+                If neuron.OutputLinear > 0.5 Then
+                    g.DrawString(neuron.OutputLinear.ToString("F0"), myFont, Brushes.Red, x, y, myFormat)
+                Else
+                    g.DrawString(neuron.OutputLinear.ToString("F0"), myFont, Brushes.Black, x, y, myFormat)
+                End If
+
                 Me.y += 20
             Next
 
             Me.x = 0
             Me.y = Me.NeuralNetworkBitmap.Height - 20
-            g.DrawString($"FitnessScoreBest: {Me.neuralNetwork.FitnessScoreBest.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
             g.DrawString($"Odometer: {Me.car.Odometer.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
@@ -68,7 +76,7 @@
             Me.y -= 20
             g.DrawString($"CountDown: {TrackMap.countdownTime}", myFont, Brushes.Black, x, y, myFormat)
             Me.y -= 20
-            g.DrawString($"Last Run Score: {Me.neuralNetwork.FitnessScoreLastCycle.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
+            g.DrawString($"Score: {Me.neuralNetwork.FitnessScore.ToString("F2")}", myFont, Brushes.Black, x, y, myFormat)
 
             Me.y -= 20
             Me.y -= 20

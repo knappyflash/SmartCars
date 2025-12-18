@@ -15,29 +15,20 @@
     End Sub
 
     Public Sub NextGeneration()
-        'Update Best Fitness
-        For i As Integer = 0 To Me.NeuralNetworks.Count - 1
-            If Me.NeuralNetworks(i).FitnessScore > Me.NeuralNetworks(i).FitnessScoreBest Then
-                Me.NeuralNetworks(i).FitnessScoreBest = Me.NeuralNetworks(i).FitnessScore
-            End If
-        Next
         Me.SortNeuralNetworksByFitness()
-        ''Decay To Prevent Stagnation
         For i As Integer = 0 To Me.NeuralNetworks.Count - 1
-            Me.NeuralNetworks(i).FitnessScoreLastCycle = 0
-            Me.NeuralNetworks(i).FitnessScore = 0
-            Me.NeuralNetworks(i).FitnessScoreBest -= (Me.NeuralNetworks(i).FitnessScoreBest * 0.001)
+            Me.NeuralNetworks(i).FitnessScore = Me.NeuralNetworks(i).FitnessScore * 0.01
         Next
 
         Me.KillBadPerformers(1, 99)
         Me.Clones(0, 99)
         Me.Mutations(1, 99)
-        If Me.NeuralNetworks(0).FitnessScoreBest < 2000 Then Me.Randomize(0, 99)
+        If Me.NeuralNetworks(0).FitnessScore < 1 Then Me.Randomize(0, 99)
         Me.Generation += 1
     End Sub
 
     Public Sub SortNeuralNetworksByFitness()
-        Dim sortedNeuralNetworks = Me.NeuralNetworks.OrderByDescending(Function(nn) nn.FitnessScoreBest).ToList
+        Dim sortedNeuralNetworks = Me.NeuralNetworks.OrderByDescending(Function(nn) nn.FitnessScore).ToList
         Me.NeuralNetworks = sortedNeuralNetworks
     End Sub
 

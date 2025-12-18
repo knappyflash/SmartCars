@@ -6,8 +6,6 @@
     Public HiddenLayerCount As Integer
     Public NeuronsPerHiddenLayer As Integer
     Public FitnessScore As Double
-    Public FitnessScoreLastCycle As Double
-    Public FitnessScoreBest As Double
 
     'Setup a Brand New NeuralNetwork
     Public Sub New()
@@ -167,7 +165,7 @@
         Dim rndNeronId As Integer
         Dim rndWeightId As Integer
 
-        For i As Integer = 0 To Maths.RandomInt(1, 3)
+        For i As Integer = 0 To Maths.RandomInt(1, 5)
             rndLayerId = Maths.RandomInt(1, Me.NeuronLayers.Length - 1)
             rndNeronId = Maths.RandomInt(1, Me.NeuronLayers(rndLayerId).Neurons.Length - 1)
             rndWeightId = Maths.RandomInt(1, Me.NeuronLayers(rndLayerId).Neurons(rndNeronId).InputWeights.Length - 1)

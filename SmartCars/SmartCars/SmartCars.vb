@@ -20,10 +20,6 @@
         Me.StillAlive = False
         For i As Integer = 0 To Me.Cars.Length - 1
             If Cars(i).Crashed Then Continue For
-
-            If Me.Cars(i).CanReceivePoint Then
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle
-            End If
             Me.StillAlive = True
 
 
@@ -37,8 +33,9 @@
 
             'Fitness Evaluation
             If Me.Cars(i).CanReceivePoint Then
-                'Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle += (Me.Cars(i).SensorValuesCurrentMin * 0.1) + (Me.Cars(i).GroundSpeed * 0.00001)
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle += 1
+                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore += (Me.Cars(i).GroundSpeed * 0.00001)
+                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore += (Me.Cars(i).SensorValuesCurrentMin * 0.001)
+                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore += 1
             End If
 
             ''Help Prevent turning around

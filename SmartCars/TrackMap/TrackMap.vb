@@ -33,7 +33,7 @@ Public Class TrackMap
 
 
     Private Sub track_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        TotalReset()
+        Me.TotalReset()
     End Sub
     Private Sub TotalReset()
         Me.Width = widthTileCount * 160
@@ -59,13 +59,38 @@ Public Class TrackMap
         Me.GoalReached = False
         Me.SmartCars.GeneticAlgorithm.Generation = 0
         For Each nn As NeuralNetwork In Me.SmartCars.GeneticAlgorithm.NeuralNetworks
-            nn.FitnessScoreBest = -500
-            nn.FitnessScore = 0
-            nn.FitnessScoreLastCycle = 0
             nn.Randomize()
         Next
-        Me.SmartCars.GeneticAlgorithm.NextGeneration()
+        Me.Reset()
+    End Sub
 
+    Private Sub Reset()
+
+        If Not DrawHeroOnly Then
+            Me.SmartCars.GeneticAlgorithm.NextGeneration()
+        End If
+
+        If ShouldChangeTrack Then
+            Me.ClearMap()
+            Me.CreateTrack()
+            Me.TrackToBitmap()
+        End If
+
+        Me.countdownTime = 40
+
+        For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
+            Me.SmartCars.Cars(i).Reset()
+            If i = 0 Then
+                Me.SmartCars.Cars(i).sensorVisible = True
+            Else
+                Me.SmartCars.Cars(i).sensorVisible = False
+            End If
+
+        Next
+
+        drawNn.car = Me.SmartCars.Cars(0)
+        drawNn.neuralNetwork = Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0)
+        drawNn.geneticAlgorithm = Me.SmartCars.GeneticAlgorithm
     End Sub
     Private Sub track_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
         Me.MeDraw(e.Graphics)
@@ -331,10 +356,9 @@ Public Class TrackMap
         Me.SmartCars.MoveCars()
 
         If Not Me.SmartCars.StillAlive Then
-
+            Me.Reset()
             If Me.SmartCars.GeneticAlgorithm.Generation >= 1000 Then Me.GoalReached = True
             If Me.GoalReached Then Me.TotalReset()
-            Me.Reset()
         End If
 
 
@@ -385,33 +409,6 @@ Public Class TrackMap
         End If
     End Sub
 
-    Private Sub Reset()
-
-        If ShouldChangeTrack Then
-            Me.ClearMap()
-            Me.CreateTrack()
-            Me.TrackToBitmap()
-        Else
-            Me.SmartCars.GeneticAlgorithm.NextGeneration()
-        End If
-
-        Me.countdownTime = 40
-
-        For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
-            Me.SmartCars.Cars(i).Reset()
-            If i = 0 Then
-                Me.SmartCars.Cars(i).sensorVisible = True
-            Else
-                Me.SmartCars.Cars(i).sensorVisible = False
-            End If
-
-        Next
-
-        drawNn.car = Me.SmartCars.Cars(0)
-        drawNn.neuralNetwork = Me.SmartCars.GeneticAlgorithm.NeuralNetworks(0)
-        drawNn.geneticAlgorithm = Me.SmartCars.GeneticAlgorithm
-    End Sub
-
     Private Sub TrackMap_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         'Dim answer As MsgBoxResult = MsgBox("Do you want to override you save?", MsgBoxStyle.YesNo)
         'If answer = MsgBoxResult.Yes Then JsonParser.SaveToFile(Me.SmartCars.GeneticAlgorithm, $"{Application.StartupPath}\save.json")
@@ -452,9 +449,7 @@ Public Class TrackMap
             End If
             For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
                 If Me.SmartCars.Cars(i).Crashed Then
-                    Me.SmartCars.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreBest = 0
                     Me.SmartCars.GeneticAlgorithm.NeuralNetworks(i).FitnessScore = 0
-                    Me.SmartCars.GeneticAlgorithm.NeuralNetworks(i).FitnessScoreLastCycle = 0
                 End If
                 Me.SmartCars.Cars(i).Crashed = True
             Next
