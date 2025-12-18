@@ -8,6 +8,8 @@
     <MyType>WindowsForms</MyType>
     <UseWPF>True</UseWPF>
     <ApplicationIcon>bin\Debug\net10.0-windows\smartCar.ico</ApplicationIcon>
+    <AssemblyVersion>1.1.0.1</AssemblyVersion>
+    <FileVersion>1.1.0.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
