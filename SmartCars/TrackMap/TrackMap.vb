@@ -331,7 +331,6 @@ Public Class TrackMap
         Me.SmartCars.MoveCars()
 
         If Not Me.SmartCars.StillAlive Then
-            Me.useTimer = False
 
             If Me.SmartCars.GeneticAlgorithm.Generation >= 1000 Then Me.GoalReached = True
             If Me.GoalReached Then Me.TotalReset()
@@ -356,17 +355,16 @@ Public Class TrackMap
         g.DrawImage(TrackBitmap, 0, 0)
 
         If DrawHeroOnly Then
-            g.FillPolygon(Me.SmartCars.Cars(0).BodyBrush, Me.SmartCars.Cars(0).Body)
-            g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(0).posX) + 10, CInt(Me.SmartCars.Cars(0).posY) + 5, 3, 3)
             Me.SmartCars.Cars(0).DrawSensors(g, False)
         Else
             For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
                 g.FillPolygon(Me.SmartCars.Cars(i).BodyBrush, Me.SmartCars.Cars(i).Body)
                 g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(i).posX) + 10, CInt(Me.SmartCars.Cars(i).posY) + 5, 3, 3)
-
                 Me.SmartCars.Cars(i).DrawSensors(g, Me.SmartCars.Cars(i).sensorVisible)
             Next i
         End If
+        g.FillPolygon(Brushes.White, Me.SmartCars.Cars(0).Body)
+        g.FillEllipse(Brushes.Blue, CInt(Me.SmartCars.Cars(0).posX) + 10, CInt(Me.SmartCars.Cars(0).posY) + 5, 3, 3)
 
         drawNn.NeuralNetworkToBitmap()
         g.DrawImage(drawNn.NeuralNetworkBitmap, Me.Width - drawNn.NeuralNetworkBitmap.Width, 0, drawNn.NeuralNetworkBitmap.Width, drawNn.NeuralNetworkBitmap.Height)
@@ -393,19 +391,14 @@ Public Class TrackMap
             Me.ClearMap()
             Me.CreateTrack()
             Me.TrackToBitmap()
+        Else
+            Me.SmartCars.GeneticAlgorithm.NextGeneration()
         End If
 
-        Me.SmartCars.GeneticAlgorithm.NextGeneration()
         Me.countdownTime = 40
 
         For i As Integer = 0 To Me.SmartCars.Cars.Length - 1
             Me.SmartCars.Cars(i).Reset()
-            If i <= 9 Then
-                Me.SmartCars.Cars(i).BodyColor = Color.Red
-            Else
-                Me.SmartCars.Cars(i).BodyColor = Color.FromArgb(Maths.RandomInt(0, 255), Maths.RandomInt(0, 255), Maths.RandomInt(0, 255))
-            End If
-
             If i = 0 Then
                 Me.SmartCars.Cars(i).sensorVisible = True
             Else
