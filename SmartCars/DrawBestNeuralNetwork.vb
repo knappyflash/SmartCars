@@ -7,7 +7,9 @@
     Public y As Integer = 0
     Public myFont As New Font("Arial", 12, FontStyle.Regular)
     Public myFormat As New StringFormat()   ' optional, for alignment
+    Public CanDraw As Boolean = False
     Public Sub NeuralNetworkToBitmap()
+
         Me.x = 0
         Me.y = 0
         Using g As Graphics = Graphics.FromImage(Me.NeuralNetworkBitmap)

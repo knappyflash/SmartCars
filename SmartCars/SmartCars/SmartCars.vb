@@ -5,6 +5,8 @@
     Public inputs(5) As Double
     Public outputs(3) As Double
     Public StillAlive As Boolean
+    Public CurrentTopScore As Double
+    Public ShowHeroOnly As Boolean = False
 
 
     Public Sub New()
@@ -30,12 +32,18 @@
             Me.inputs(5) = Me.Cars(i).GroundSpeed
             Me.outputs = Me.GeneticAlgorithm.NeuralNetworks(i).PropogateForward(inputs)
 
-
             'Fitness Evaluation
-            If Me.Cars(i).CanReceivePoint Then
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore += (Me.Cars(i).GroundSpeed * 0.00001)
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore += (Me.Cars(i).SensorValuesCurrentMin * 0.001)
-                Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore += 1
+
+            If Not Me.ShowHeroOnly Then
+                If Me.Cars(i).CanReceivePoint Then
+                    Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore += (Me.Cars(i).GroundSpeed * 0.00001)
+                    Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore += (Me.Cars(i).SensorValuesCurrentMin * 0.001)
+                    Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore += 1
+                End If
+            End If
+
+            If Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore > Me.CurrentTopScore Then
+                Me.CurrentTopScore = Me.GeneticAlgorithm.NeuralNetworks(i).FitnessScore
             End If
 
             ''Help Prevent turning around
