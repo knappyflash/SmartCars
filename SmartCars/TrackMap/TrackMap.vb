@@ -463,6 +463,9 @@ Public Class TrackMap
             If HeroSurvivedCounter >= 10 Then
                 useTimer = False
                 Me.SmartCars.ShowHeroOnly = True
+                If HeroSurvivedCounter >= 20 Then
+                    TotalReset()
+                End If
             Else
                 useTimer = False
                 Me.SmartCars.ShowHeroOnly = False
